@@ -17,18 +17,282 @@
   *, *::before, *::after { box-sizing: border-box; }
   ::selection { background: #00E676; color: #0A0C11; }
   input::placeholder { color: #6B7689; }
+  body { overflow-x: hidden; }
+  input, button { max-width: 100%; }
   @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
   @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .35; transform: scale(.8); } }
   @keyframes glowshift { 0%,100% { opacity: .55; } 50% { opacity: .85; } }
+
+  @media (max-width: 900px) {
+    .nav-inner {
+      height: auto !important;
+      padding: 14px 18px !important;
+      gap: 14px !important;
+      flex-wrap: wrap !important;
+    }
+    .nav-actions {
+      width: 100% !important;
+      gap: 14px !important;
+      justify-content: space-between !important;
+    }
+    .nav-links {
+      gap: 18px !important;
+      flex-wrap: wrap !important;
+    }
+    .hero-section {
+      padding: 42px 18px 58px !important;
+    }
+    .hero-layout {
+      gap: 38px !important;
+      align-items: stretch !important;
+    }
+    .hero-copy,
+    .phone-wrap {
+      flex: 1 1 100% !important;
+      min-width: 0 !important;
+      max-width: 100% !important;
+      width: 100% !important;
+    }
+    .hero-title {
+      font-size: clamp(2.25rem, 9vw, 4.4rem) !important;
+      line-height: 1 !important;
+    }
+    .content-section,
+    .launch-section {
+      padding-left: 18px !important;
+      padding-right: 18px !important;
+    }
+    .feature-grid {
+      grid-template-columns: minmax(0, 1fr) !important;
+    }
+    .footer-main,
+    .footer-bottom {
+      align-items: flex-start !important;
+    }
+  }
+
+  @media (max-width: 640px) {
+    [style*="letter-spacing"] {
+      letter-spacing: 0 !important;
+    }
+    .page-shell {
+      overflow-x: clip !important;
+    }
+    .site-nav {
+      position: sticky !important;
+    }
+    .nav-inner {
+      padding: 12px 16px !important;
+      justify-content: center !important;
+    }
+    .brand-link {
+      width: 100% !important;
+      justify-content: center !important;
+      gap: 10px !important;
+    }
+    .brand-link svg {
+      width: 36px !important;
+      height: 36px !important;
+    }
+    .brand-link span {
+      font-size: 18px !important;
+    }
+    .nav-actions {
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: 10px !important;
+    }
+    .nav-links {
+      width: 100% !important;
+      justify-content: space-between !important;
+      gap: 10px !important;
+    }
+    .nav-links a {
+      font-size: 14px !important;
+    }
+    .nav-cta {
+      width: 100% !important;
+      text-align: center !important;
+      padding: 12px 16px !important;
+    }
+    .hero-section {
+      padding: 34px 16px 48px !important;
+    }
+    .hero-glow {
+      width: 260px !important;
+      height: 260px !important;
+      right: -80px !important;
+      top: 40px !important;
+    }
+    .hero-layout {
+      flex-direction: column !important;
+      gap: 30px !important;
+    }
+    .hero-kicker {
+      max-width: 100% !important;
+      flex-wrap: wrap !important;
+      border-radius: 14px !important;
+      padding: 7px 11px !important;
+    }
+    .hero-kicker span:last-child {
+      font-size: 11px !important;
+    }
+    .hero-title {
+      font-size: clamp(2.05rem, 10vw, 2.85rem) !important;
+      line-height: 1.04 !important;
+      margin-top: 18px !important;
+      overflow-wrap: anywhere !important;
+    }
+    .hero-text {
+      font-size: 1rem !important;
+      line-height: 1.55 !important;
+      margin-top: 18px !important;
+    }
+    .hero-form-shell {
+      max-width: none !important;
+      margin-top: 24px !important;
+    }
+    .hero-form {
+      flex-direction: column !important;
+      padding: 8px !important;
+    }
+    .form-field,
+    .form-button {
+      width: 100% !important;
+      min-width: 0 !important;
+    }
+    .form-button {
+      padding: 14px 16px !important;
+    }
+    .hero-success,
+    .waitlist-success {
+      align-items: flex-start !important;
+    }
+    .hero-note {
+      align-items: flex-start !important;
+      line-height: 1.4 !important;
+    }
+    .phone-wrap {
+      justify-content: center !important;
+    }
+    .phone-shell {
+      width: min(100%, 268px) !important;
+      height: auto !important;
+      aspect-ratio: 288 / 590 !important;
+      border-radius: 38px !important;
+      padding: 9px !important;
+      animation: none !important;
+    }
+    .about-section {
+      padding-top: 48px !important;
+      padding-bottom: 54px !important;
+    }
+    .about-section p {
+      font-size: 1.35rem !important;
+      line-height: 1.35 !important;
+    }
+    .about-chips {
+      justify-content: flex-start !important;
+      margin-top: 28px !important;
+    }
+    .features-section,
+    .launch-section {
+      padding-top: 46px !important;
+      padding-bottom: 54px !important;
+    }
+    .features-section h2,
+    .launch-section h2 {
+      font-size: 1.9rem !important;
+      line-height: 1.08 !important;
+      margin-bottom: 30px !important;
+    }
+    .feature-card {
+      padding: 22px !important;
+      border-radius: 16px !important;
+    }
+    .launch-card,
+    .waitlist-card {
+      border-radius: 20px !important;
+      padding: 30px 18px !important;
+    }
+    .launch-actions,
+    .waitlist-row,
+    .footer-main,
+    .footer-bottom {
+      flex-direction: column !important;
+      align-items: stretch !important;
+    }
+    .store-badge {
+      width: 100% !important;
+      justify-content: flex-start !important;
+      padding-right: 18px !important;
+    }
+    .launch-pill {
+      width: 100% !important;
+      justify-content: center !important;
+      border-radius: 14px !important;
+      line-height: 1.35 !important;
+    }
+    .waitlist-section {
+      padding: 10px 16px 58px !important;
+    }
+    .waitlist-ring {
+      width: 180px !important;
+      height: 180px !important;
+      right: -90px !important;
+      bottom: -90px !important;
+    }
+    .waitlist-form,
+    .waitlist-input,
+    .waitlist-submit {
+      width: 100% !important;
+      min-width: 0 !important;
+    }
+    .footer-main {
+      padding: 38px 16px 30px !important;
+      gap: 28px !important;
+    }
+    .footer-brand {
+      max-width: none !important;
+    }
+    .footer-links {
+      width: 100% !important;
+      gap: 28px !important;
+    }
+    .footer-bottom {
+      padding: 18px 16px !important;
+      gap: 14px !important;
+    }
+    .footer-policy {
+      flex-wrap: wrap !important;
+      gap: 16px !important;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .hero-section {
+      padding-left: 14px !important;
+      padding-right: 14px !important;
+    }
+    .hero-title {
+      font-size: 2rem !important;
+    }
+    .phone-shell {
+      width: min(100%, 246px) !important;
+    }
+    .nav-links a {
+      font-size: 13px !important;
+    }
+  }
 </style>
 </helmet>
 
-<div style="font-family: 'Hanken Grotesk', system-ui, sans-serif; background: #0A0C11; color: #EEF1F5; overflow-x: hidden; position: relative;">
+<div class="page-shell" style="font-family: 'Hanken Grotesk', system-ui, sans-serif; background: #0A0C11; color: #EEF1F5; overflow-x: hidden; position: relative;">
 
   <!-- ================= NAV ================= -->
-  <nav style="position: sticky; top: 0; z-index: 50; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); background: rgba(10,12,17,0.72); border-bottom: 1px solid rgba(255,255,255,0.07);">
-    <div style="max-width: 1180px; margin: 0 auto; padding: 0 24px; height: 70px; display: flex; align-items: center; justify-content: space-between;">
-      <a href="#top" style="display: flex; align-items: center; gap: 15px; text-decoration: none;">
+  <nav class="site-nav" style="position: sticky; top: 0; z-index: 50; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); background: rgba(10,12,17,0.72); border-bottom: 1px solid rgba(255,255,255,0.07);">
+    <div class="nav-inner" style="max-width: 1180px; margin: 0 auto; padding: 0 24px; height: 70px; display: flex; align-items: center; justify-content: space-between;">
+      <a class="brand-link" href="#top" style="display: flex; align-items: center; gap: 15px; text-decoration: none;">
         <svg width="42" height="42" viewBox="0 0 64 64" fill="none" style="filter: drop-shadow(0 0 14px rgba(0,230,118,0.4));">
           <line x1="20.5" y1="21.9" x2="26.4" y2="27.1" stroke="#DDE2E7" stroke-width="3.4" stroke-linecap="round"></line>
           <line x1="37.6" y1="36.9" x2="43.5" y2="42.1" stroke="#DDE2E7" stroke-width="3.4" stroke-linecap="round"></line>
@@ -39,48 +303,48 @@
         </svg>
         <span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.01em; color: #fff;">ONLY<span style="color: #00E676;">SOCIAL</span></span>
       </a>
-      <div style="display: flex; align-items: center; gap: 34px;">
-        <div style="display: flex; gap: 30px; align-items: center;">
+      <div class="nav-actions" style="display: flex; align-items: center; gap: 34px;">
+        <div class="nav-links" style="display: flex; gap: 30px; align-items: center;">
           <a href="#about" style="color: #9AA3B2; text-decoration: none; font-size: 15px; font-weight: 500; transition: color .2s;" style-hover="color: #EEF1F5;">About</a>
           <a href="#features" style="color: #9AA3B2; text-decoration: none; font-size: 15px; font-weight: 500; transition: color .2s;" style-hover="color: #EEF1F5;">Features</a>
           <a href="#launch" style="color: #9AA3B2; text-decoration: none; font-size: 15px; font-weight: 500; transition: color .2s;" style-hover="color: #EEF1F5;">Launch</a>
         </div>
-        <a href="#waitlist" style="background: #00E676; color: #0A0C11; text-decoration: none; font-weight: 700; font-size: 14.5px; padding: 10px 18px; border-radius: 10px; white-space: nowrap; transition: transform .18s, box-shadow .18s;" style-hover="transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,230,118,0.32);">Join Waitlist</a>
+        <a class="nav-cta" href="#waitlist" style="background: #00E676; color: #0A0C11; text-decoration: none; font-weight: 700; font-size: 14.5px; padding: 10px 18px; border-radius: 10px; white-space: nowrap; transition: transform .18s, box-shadow .18s;" style-hover="transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,230,118,0.32);">Join Waitlist</a>
       </div>
     </div>
   </nav>
 
   <!-- ================= HERO ================= -->
-  <header id="top" style="position: relative; max-width: 1180px; margin: 0 auto; padding: 60px 24px 90px;">
-    <div style="position: absolute; top: -40px; right: 4%; width: 520px; height: 520px; background: radial-gradient(circle, rgba(0,230,118,0.16), transparent 62%); filter: blur(20px); pointer-events: none; animation: glowshift 7s ease-in-out infinite;"></div>
-    <div style="display: flex; flex-wrap: wrap; gap: 56px; align-items: center; position: relative;">
+  <header id="top" class="hero-section" style="position: relative; max-width: 1180px; margin: 0 auto; padding: 60px 24px 90px;">
+    <div class="hero-glow" style="position: absolute; top: -40px; right: 4%; width: 520px; height: 520px; background: radial-gradient(circle, rgba(0,230,118,0.16), transparent 62%); filter: blur(20px); pointer-events: none; animation: glowshift 7s ease-in-out infinite;"></div>
+    <div class="hero-layout" style="display: flex; flex-wrap: wrap; gap: 56px; align-items: center; position: relative;">
 
       <!-- left -->
-      <div style="flex: 1.25; min-width: 330px;">
-        <div style="display: inline-flex; align-items: center; gap: 9px; padding: 7px 14px; border: 1px solid rgba(0,230,118,0.3); border-radius: 100px; background: rgba(0,230,118,0.06);">
+      <div class="hero-copy" style="flex: 1.25; min-width: 330px;">
+        <div class="hero-kicker" style="display: inline-flex; align-items: center; gap: 9px; padding: 7px 14px; border: 1px solid rgba(0,230,118,0.3); border-radius: 100px; background: rgba(0,230,118,0.06);">
           <span style="width: 7px; height: 7px; border-radius: 50%; background: #00E676; animation: pulse 1.8s ease-in-out infinite;"></span>
           <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.14em; color: #00E676;">LAUNCHING SOON · CITY BY CITY</span>
         </div>
 
-        <h1 style="font-family: 'Archivo', sans-serif; font-weight: 900; text-transform: uppercase; font-size: clamp(2.7rem, 6.4vw, 5rem); line-height: 0.94; letter-spacing: -0.025em; margin: 22px 0 0;">
+        <h1 class="hero-title" style="font-family: 'Archivo', sans-serif; font-weight: 900; text-transform: uppercase; font-size: clamp(2.7rem, 6.4vw, 5rem); line-height: 0.94; letter-spacing: -0.025em; margin: 22px 0 0;">
           Find your next <span style="color: #00E676;">match.</span><br>
           Connect with your sports community.
         </h1>
 
-        <p style="color: #9AA3B2; font-size: clamp(1.02rem, 1.4vw, 1.2rem); line-height: 1.55; max-width: 500px; margin: 24px 0 0;">
+        <p class="hero-text" style="color: #9AA3B2; font-size: clamp(1.02rem, 1.4vw, 1.2rem); line-height: 1.55; max-width: 500px; margin: 24px 0 0;">
           A hyperlocal sports social network for amateur athletes — find local matches, connect with players, and share your best moments. Growing city by city.
         </p>
 
         <!-- hero waitlist form -->
-        <div style="margin-top: 32px; max-width: 480px;">
+        <div class="hero-form-shell" style="margin-top: 32px; max-width: 480px;">
           <sc-if value="{{ heroFormOpen }}" hint-placeholder-val="{{ true }}">
-            <form onSubmit="{{ submitHero }}" style="display: flex; gap: 10px; flex-wrap: wrap; background: #14171F; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 7px 7px 7px 7px;">
-              <input ref="{{ heroRef }}" type="email" placeholder="Enter your email" style="flex: 1; min-width: 200px; background: transparent; border: none; outline: none; color: #EEF1F5; font-family: inherit; font-size: 15.5px; padding: 11px 14px;">
-              <button type="submit" style="background: #00E676; color: #0A0C11; border: none; font-family: inherit; font-weight: 700; font-size: 15px; padding: 12px 22px; border-radius: 9px; cursor: pointer; transition: transform .18s, box-shadow .18s;" style-hover="transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,230,118,0.34);">Join the Waitlist</button>
+            <form class="hero-form" onSubmit="{{ submitHero }}" style="display: flex; gap: 10px; flex-wrap: wrap; background: #14171F; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 7px 7px 7px 7px;">
+              <input class="form-field" ref="{{ heroRef }}" type="email" placeholder="Enter your email" style="flex: 1; min-width: 200px; background: transparent; border: none; outline: none; color: #EEF1F5; font-family: inherit; font-size: 15.5px; padding: 11px 14px;">
+              <button class="form-button" type="submit" style="background: #00E676; color: #0A0C11; border: none; font-family: inherit; font-weight: 700; font-size: 15px; padding: 12px 22px; border-radius: 9px; cursor: pointer; transition: transform .18s, box-shadow .18s;" style-hover="transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,230,118,0.34);">Join the Waitlist</button>
             </form>
           </sc-if>
           <sc-if value="{{ heroDone }}" hint-placeholder-val="{{ false }}">
-            <div style="display: flex; align-items: center; gap: 12px; background: rgba(0,230,118,0.08); border: 1px solid rgba(0,230,118,0.3); border-radius: 14px; padding: 18px 20px;">
+            <div class="hero-success" style="display: flex; align-items: center; gap: 12px; background: rgba(0,230,118,0.08); border: 1px solid rgba(0,230,118,0.3); border-radius: 14px; padding: 18px 20px;">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00E676" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
               <span style="font-weight: 600; font-size: 15.5px;">You're on the list. We'll let you know the moment ONLYSOCIAL hits your city.</span>
             </div>
@@ -90,15 +354,15 @@
           </sc-if>
         </div>
 
-        <div style="display: flex; align-items: center; gap: 9px; margin-top: 18px; color: #6B7689; font-size: 13.5px; font-weight: 500;">
+        <div class="hero-note" style="display: flex; align-items: center; gap: 9px; margin-top: 18px; color: #6B7689; font-size: 13.5px; font-weight: 500;">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6B7689" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"></rect><path d="M11 18h2"></path></svg>
           iOS &amp; Android app and Web version — Coming Soon
         </div>
       </div>
 
       <!-- right: phone mockup -->
-      <div style="flex: 1; min-width: 290px; display: flex; justify-content: center; position: relative;">
-        <div style="width: 288px; height: 590px; border-radius: 46px; background: linear-gradient(160deg, #1a1d27, #0A0C11); border: 1px solid rgba(255,255,255,0.1); padding: 11px; box-shadow: 0 40px 90px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04); animation: floaty 6.5s ease-in-out infinite;">
+      <div class="phone-wrap" style="flex: 1; min-width: 290px; display: flex; justify-content: center; position: relative;">
+        <div class="phone-shell" style="width: 288px; height: 590px; border-radius: 46px; background: linear-gradient(160deg, #1a1d27, #0A0C11); border: 1px solid rgba(255,255,255,0.1); padding: 11px; box-shadow: 0 40px 90px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04); animation: floaty 6.5s ease-in-out infinite;">
           <div style="width: 100%; height: 100%; border-radius: 36px; background: #08090D; overflow: hidden; position: relative; display: flex; flex-direction: column;">
             <!-- notch -->
             
@@ -209,12 +473,12 @@
   </header>
 
   <!-- ================= ABOUT ================= -->
-  <section id="about" style="max-width: 980px; margin: 0 auto; padding: 70px 24px 80px; text-align: center;">
+  <section id="about" class="content-section about-section" style="max-width: 980px; margin: 0 auto; padding: 70px 24px 80px; text-align: center;">
     <div style="font-family: 'Archivo', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.18em; color: #00E676; margin-bottom: 26px;">// WHAT IS ONLYSOCIAL</div>
     <p style="font-size: clamp(1.5rem, 3vw, 2.35rem); font-weight: 600; line-height: 1.32; letter-spacing: -0.015em; margin: 0; text-wrap: balance;">
       Pickup games shouldn't be hard to find. ONLYSOCIAL connects amateur athletes with <span style="color: #00E676;">local matches</span>, teammates, and opponents — then lets you <span style="color: #00E676;">share the moments</span> worth replaying. Built to grow, city by city.
     </p>
-    <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 38px;">
+    <div class="about-chips" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 38px;">
       <span style="padding: 9px 16px; border: 1px solid rgba(255,255,255,0.13); border-radius: 100px; font-size: 14px; font-weight: 600; color: #C2CAD6;">Football</span>
       <span style="padding: 9px 16px; border: 1px solid rgba(255,255,255,0.13); border-radius: 100px; font-size: 14px; font-weight: 600; color: #C2CAD6;">Basketball</span>
       <span style="padding: 9px 16px; border: 1px solid rgba(255,255,255,0.13); border-radius: 100px; font-size: 14px; font-weight: 600; color: #C2CAD6;">Tennis</span>
@@ -227,12 +491,12 @@
   </section>
 
   <!-- ================= FEATURES ================= -->
-  <section id="features" style="max-width: 1180px; margin: 0 auto; padding: 60px 24px 80px;">
+  <section id="features" class="content-section features-section" style="max-width: 1180px; margin: 0 auto; padding: 60px 24px 80px;">
     <div style="font-family: 'Archivo', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.18em; color: #00E676; margin-bottom: 16px;">// FEATURES</div>
     <h2 style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.025em; line-height: 1.02; margin: 0 0 46px; max-width: 620px; text-wrap: balance;">Everything you need to play more.</h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(248px, 1fr)); gap: 18px;">
+    <div class="feature-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(248px, 1fr)); gap: 18px;">
 
-      <div style="background: #12151D; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 28px; transition: transform .22s, border-color .22s, box-shadow .22s;" style-hover="transform: translateY(-7px); border-color: rgba(0,230,118,0.4); box-shadow: 0 18px 44px rgba(0,0,0,0.4);">
+      <div class="feature-card" style="background: #12151D; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 28px; transition: transform .22s, border-color .22s, box-shadow .22s;" style-hover="transform: translateY(-7px); border-color: rgba(0,230,118,0.4); box-shadow: 0 18px 44px rgba(0,0,0,0.4);">
         <div style="width: 52px; height: 52px; border-radius: 14px; background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.22); display: flex; align-items: center; justify-content: center; color: #00E676;">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4.6"></circle><circle cx="12" cy="12" r="1" fill="currentColor"></circle><path d="M12 1v3M12 20v3M1 12h3M20 12h3"></path></svg>
         </div>
@@ -240,7 +504,7 @@
         <p style="color: #939CAB; font-size: 14.5px; line-height: 1.55; margin: 0;">Find pickup games and open matches happening near you — filtered by sport, skill level, and time.</p>
       </div>
 
-      <div style="background: #12151D; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 28px; transition: transform .22s, border-color .22s, box-shadow .22s;" style-hover="transform: translateY(-7px); border-color: rgba(0,230,118,0.4); box-shadow: 0 18px 44px rgba(0,0,0,0.4);">
+      <div class="feature-card" style="background: #12151D; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 28px; transition: transform .22s, border-color .22s, box-shadow .22s;" style-hover="transform: translateY(-7px); border-color: rgba(0,230,118,0.4); box-shadow: 0 18px 44px rgba(0,0,0,0.4);">
         <div style="width: 52px; height: 52px; border-radius: 14px; background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.22); display: flex; align-items: center; justify-content: center; color: #00E676;">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 21l2.1-5.4A8.5 8.5 0 1 1 21 11.5Z"></path><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"></path></svg>
         </div>
@@ -248,7 +512,7 @@
         <p style="color: #939CAB; font-size: 14.5px; line-height: 1.55; margin: 0;">Coordinate instantly with teammates and opponents before, during, and after every game.</p>
       </div>
 
-      <div style="background: #12151D; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 28px; transition: transform .22s, border-color .22s, box-shadow .22s;" style-hover="transform: translateY(-7px); border-color: rgba(0,230,118,0.4); box-shadow: 0 18px 44px rgba(0,0,0,0.4);">
+      <div class="feature-card" style="background: #12151D; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 28px; transition: transform .22s, border-color .22s, box-shadow .22s;" style-hover="transform: translateY(-7px); border-color: rgba(0,230,118,0.4); box-shadow: 0 18px 44px rgba(0,0,0,0.4);">
         <div style="width: 52px; height: 52px; border-radius: 14px; background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.22); display: flex; align-items: center; justify-content: center; color: #00E676;">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="15" rx="3.5"></rect><path d="M10 9.5v5l4.5-2.5z" fill="currentColor"></path></svg>
         </div>
@@ -256,7 +520,7 @@
         <p style="color: #939CAB; font-size: 14.5px; line-height: 1.55; margin: 0;">Share short-form videos of your best plays and relive the moments worth replaying.</p>
       </div>
 
-      <div style="background: #12151D; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 28px; transition: transform .22s, border-color .22s, box-shadow .22s;" style-hover="transform: translateY(-7px); border-color: rgba(0,230,118,0.4); box-shadow: 0 18px 44px rgba(0,0,0,0.4);">
+      <div class="feature-card" style="background: #12151D; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 28px; transition: transform .22s, border-color .22s, box-shadow .22s;" style-hover="transform: translateY(-7px); border-color: rgba(0,230,118,0.4); box-shadow: 0 18px 44px rgba(0,0,0,0.4);">
         <div style="width: 52px; height: 52px; border-radius: 14px; background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.22); display: flex; align-items: center; justify-content: center; color: #00E676;">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"></circle><path d="M3.5 19a5.5 5.5 0 0 1 11 0"></path><path d="M16 5.4a3.2 3.2 0 0 1 0 6.1"></path><path d="M17.5 13.2A5.5 5.5 0 0 1 20.5 18.5"></path></svg>
         </div>
@@ -268,17 +532,17 @@
   </section>
 
   <!-- ================= LAUNCH / COMING SOON ================= -->
-  <section id="launch" style="max-width: 1180px; margin: 0 auto; padding: 60px 24px 80px;">
-    <div style="background: linear-gradient(150deg, #12151D, #0C0E14); border: 1px solid rgba(255,255,255,0.09); border-radius: 28px; padding: clamp(36px, 6vw, 64px); position: relative; overflow: hidden;">
+  <section id="launch" class="content-section launch-section" style="max-width: 1180px; margin: 0 auto; padding: 60px 24px 80px;">
+    <div class="launch-card" style="background: linear-gradient(150deg, #12151D, #0C0E14); border: 1px solid rgba(255,255,255,0.09); border-radius: 28px; padding: clamp(36px, 6vw, 64px); position: relative; overflow: hidden;">
       <div style="position: absolute; top: -80px; left: -40px; width: 360px; height: 360px; background: radial-gradient(circle, rgba(0,230,118,0.1), transparent 65%); filter: blur(10px); pointer-events: none;"></div>
       <div style="position: relative; text-align: center; max-width: 680px; margin: 0 auto;">
         <div style="font-family: 'Archivo', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.18em; color: #00E676; margin-bottom: 18px;">// THE LAUNCH</div>
         <h2 style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: clamp(1.9rem, 4vw, 2.9rem); letter-spacing: -0.025em; line-height: 1.05; margin: 0 0 16px; text-wrap: balance;">ONLYSOCIAL is launching soon — city by city.</h2>
         <p style="color: #939CAB; font-size: clamp(1rem, 1.4vw, 1.15rem); line-height: 1.55; margin: 0 auto 38px; max-width: 520px;">We're rolling out market by market. Get the app the moment it lands near you.</p>
 
-        <div style="display: flex; flex-wrap: wrap; gap: 14px; justify-content: center;">
+        <div class="launch-actions" style="display: flex; flex-wrap: wrap; gap: 14px; justify-content: center;">
           <!-- App Store badge (disabled) -->
-          <div style="position: relative; display: flex; align-items: center; gap: 12px; background: #181B23; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 12px 22px; opacity: 0.55; cursor: not-allowed;">
+          <div class="store-badge" style="position: relative; display: flex; align-items: center; gap: 12px; background: #181B23; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 12px 22px; opacity: 0.55; cursor: not-allowed;">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="#EEF1F5"><path d="M17.05 12.9c-.03-2.6 2.12-3.85 2.22-3.91-1.21-1.77-3.09-2.01-3.76-2.04-1.6-.16-3.12.94-3.93.94-.81 0-2.06-.92-3.39-.89-1.74.03-3.35 1.01-4.25 2.57-1.81 3.14-.46 7.79 1.3 10.34.86 1.25 1.88 2.65 3.21 2.6 1.29-.05 1.78-.83 3.34-.83 1.55 0 2 .83 3.36.81 1.39-.03 2.27-1.27 3.12-2.53.98-1.45 1.39-2.85 1.41-2.92-.03-.01-2.71-1.04-2.74-4.12z"></path><path d="M14.78 5.38c.71-.86 1.19-2.06 1.06-3.25-1.02.04-2.26.68-2.99 1.54-.66.76-1.23 1.98-1.08 3.14 1.14.09 2.3-.58 3.01-1.43z"></path></svg>
             <div style="text-align: left;">
               <div style="font-size: 10.5px; color: #93A0AE; font-weight: 500;">Coming soon to</div>
@@ -287,7 +551,7 @@
             <span style="position: absolute; top: -9px; right: -8px; background: #00E676; color: #0A0C11; font-size: 9px; font-weight: 800; letter-spacing: 0.06em; padding: 3px 8px; border-radius: 6px; opacity: 1;">SOON</span>
           </div>
           <!-- Google Play badge (disabled) -->
-          <div style="position: relative; display: flex; align-items: center; gap: 12px; background: #181B23; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 12px 22px; opacity: 0.55; cursor: not-allowed;">
+          <div class="store-badge" style="position: relative; display: flex; align-items: center; gap: 12px; background: #181B23; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 12px 22px; opacity: 0.55; cursor: not-allowed;">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 2.8 14 12 4 21.2c-.5-.2-.8-.7-.8-1.4V4.2c0-.7.3-1.2.8-1.4z" fill="#EEF1F5" opacity="0.9"></path><path d="m14 12 3.4-3.1 2.9 1.7c.9.5.9 1.9 0 2.4l-2.9 1.7L14 12z" fill="#EEF1F5" opacity="0.65"></path></svg>
             <div style="text-align: left;">
               <div style="font-size: 10.5px; color: #93A0AE; font-weight: 500;">Coming soon to</div>
@@ -297,7 +561,7 @@
           </div>
         </div>
 
-        <div style="display: inline-flex; align-items: center; gap: 9px; margin-top: 24px; padding: 9px 16px; border: 1px dashed rgba(255,255,255,0.18); border-radius: 100px; color: #AEB6C2; font-size: 13.5px; font-weight: 600;">
+        <div class="launch-pill" style="display: inline-flex; align-items: center; gap: 9px; margin-top: 24px; padding: 9px 16px; border: 1px dashed rgba(255,255,255,0.18); border-radius: 100px; color: #AEB6C2; font-size: 13.5px; font-weight: 600;">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#AEB6C2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"></circle><path d="M2.5 12h19M12 2.5c2.5 2.6 3.9 6 4 9.5-.1 3.5-1.5 6.9-4 9.5-2.5-2.6-3.9-6-4-9.5.1-3.5 1.5-6.9 4-9.5z"></path></svg>
           Web App — Coming Soon
         </div>
@@ -306,28 +570,28 @@
   </section>
 
   <!-- ================= WAITLIST (accent block) ================= -->
-  <section id="waitlist" style="padding: 20px 24px 90px;">
-    <div style="max-width: 1080px; margin: 0 auto; background: #00E676; border-radius: 30px; padding: clamp(40px, 6vw, 72px); position: relative; overflow: hidden;">
-      <div style="position: absolute; right: -60px; bottom: -80px; width: 320px; height: 320px; border: 40px solid rgba(10,12,17,0.06); border-radius: 50%; pointer-events: none;"></div>
-      <div style="position: relative; max-width: 560px;">
+  <section id="waitlist" class="waitlist-section" style="padding: 20px 24px 90px;">
+    <div class="waitlist-card" style="max-width: 1080px; margin: 0 auto; background: #00E676; border-radius: 30px; padding: clamp(40px, 6vw, 72px); position: relative; overflow: hidden;">
+      <div class="waitlist-ring" style="position: absolute; right: -60px; bottom: -80px; width: 320px; height: 320px; border: 40px solid rgba(10,12,17,0.06); border-radius: 50%; pointer-events: none;"></div>
+      <div class="waitlist-content" style="position: relative; max-width: 560px;">
         <div style="font-family: 'Archivo', sans-serif; font-size: 13px; font-weight: 800; letter-spacing: 0.16em; color: rgba(10,12,17,0.55); margin-bottom: 16px;">// JOIN THE WAITLIST</div>
         <h2 style="font-family: 'Archivo', sans-serif; font-weight: 900; text-transform: uppercase; font-size: clamp(2.1rem, 5vw, 3.6rem); letter-spacing: -0.03em; line-height: 0.95; color: #0A0C11; margin: 0 0 14px;">Be first on the field.</h2>
         <p style="color: rgba(10,12,17,0.7); font-size: clamp(1rem, 1.5vw, 1.18rem); font-weight: 500; line-height: 1.5; margin: 0 0 30px;">Be the first to know when ONLYSOCIAL launches in your city. No spam — just the green light.</p>
 
         <sc-if value="{{ waitFormOpen }}" hint-placeholder-val="{{ true }}">
-          <form onSubmit="{{ submitWait }}" style="display: flex; flex-direction: column; gap: 12px; max-width: 480px;">
-            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-              <input ref="{{ waitRef }}" type="email" placeholder="Your email" style="flex: 1; min-width: 200px; background: #fff; border: 1px solid rgba(10,12,17,0.12); border-radius: 12px; padding: 15px 16px; font-family: inherit; font-size: 15.5px; color: #0A0C11; outline: none;">
-              <input ref="{{ cityRef }}" type="text" placeholder="Your city (optional)" style="flex: 1; min-width: 160px; background: #fff; border: 1px solid rgba(10,12,17,0.12); border-radius: 12px; padding: 15px 16px; font-family: inherit; font-size: 15.5px; color: #0A0C11; outline: none;">
+          <form class="waitlist-form" onSubmit="{{ submitWait }}" style="display: flex; flex-direction: column; gap: 12px; max-width: 480px;">
+            <div class="waitlist-row" style="display: flex; gap: 12px; flex-wrap: wrap;">
+              <input class="waitlist-input" ref="{{ waitRef }}" type="email" placeholder="Your email" style="flex: 1; min-width: 200px; background: #fff; border: 1px solid rgba(10,12,17,0.12); border-radius: 12px; padding: 15px 16px; font-family: inherit; font-size: 15.5px; color: #0A0C11; outline: none;">
+              <input class="waitlist-input" ref="{{ cityRef }}" type="text" placeholder="Your city (optional)" style="flex: 1; min-width: 160px; background: #fff; border: 1px solid rgba(10,12,17,0.12); border-radius: 12px; padding: 15px 16px; font-family: inherit; font-size: 15.5px; color: #0A0C11; outline: none;">
             </div>
-            <button type="submit" style="background: #0A0C11; color: #fff; border: none; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 16px; padding: 16px; border-radius: 12px; cursor: pointer; transition: transform .18s, box-shadow .18s;" style-hover="transform: translateY(-2px); box-shadow: 0 12px 30px rgba(10,12,17,0.28);">Notify Me</button>
+            <button class="waitlist-submit" type="submit" style="background: #0A0C11; color: #fff; border: none; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 16px; padding: 16px; border-radius: 12px; cursor: pointer; transition: transform .18s, box-shadow .18s;" style-hover="transform: translateY(-2px); box-shadow: 0 12px 30px rgba(10,12,17,0.28);">Notify Me</button>
           </form>
           <sc-if value="{{ showWaitErr }}" hint-placeholder-val="{{ false }}">
             <div style="color: #B23A12; font-size: 13.5px; font-weight: 600; margin-top: 10px;">{{ waitErr }}</div>
           </sc-if>
         </sc-if>
         <sc-if value="{{ waitDone }}" hint-placeholder-val="{{ false }}">
-          <div style="display: flex; align-items: center; gap: 14px; background: #0A0C11; border-radius: 16px; padding: 22px 24px; max-width: 480px;">
+          <div class="waitlist-success" style="display: flex; align-items: center; gap: 14px; background: #0A0C11; border-radius: 16px; padding: 22px 24px; max-width: 480px;">
             <span style="flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; background: #00E676; display: flex; align-items: center; justify-content: center;">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A0C11" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
             </span>
@@ -342,9 +606,9 @@
   </section>
 
   <!-- ================= FOOTER ================= -->
-  <footer style="border-top: 1px solid rgba(255,255,255,0.07);">
-    <div style="max-width: 1180px; margin: 0 auto; padding: 50px 24px 40px; display: flex; flex-wrap: wrap; gap: 32px; justify-content: space-between; align-items: flex-start;">
-      <div style="max-width: 320px;">
+  <footer class="site-footer" style="border-top: 1px solid rgba(255,255,255,0.07);">
+    <div class="footer-main" style="max-width: 1180px; margin: 0 auto; padding: 50px 24px 40px; display: flex; flex-wrap: wrap; gap: 32px; justify-content: space-between; align-items: flex-start;">
+      <div class="footer-brand" style="max-width: 320px;">
         <div style="display: flex; align-items: center; gap: 14px;">
           <svg width="38" height="38" viewBox="0 0 64 64" fill="none">
             <line x1="20.5" y1="21.9" x2="26.4" y2="27.1" stroke="#DDE2E7" stroke-width="3.4" stroke-linecap="round"></line>
@@ -359,7 +623,7 @@
         <p style="color: #6B7689; font-size: 14.5px; line-height: 1.5; margin: 16px 0 0;">Find your next match. The hyperlocal home for amateur athletes — growing city by city.</p>
       </div>
 
-      <div style="display: flex; gap: 56px; flex-wrap: wrap;">
+      <div class="footer-links" style="display: flex; gap: 56px; flex-wrap: wrap;">
         <div style="display: flex; flex-direction: column; gap: 13px;">
           <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: #6B7689; text-transform: uppercase;">Explore</span>
           <a href="#about" style="color: #C2CAD6; text-decoration: none; font-size: 14.5px; transition: color .2s;" style-hover="color: #00E676;">About</a>
@@ -384,9 +648,9 @@
       </div>
     </div>
     <div style="border-top: 1px solid rgba(255,255,255,0.06);">
-      <div style="max-width: 1180px; margin: 0 auto; padding: 20px 24px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; color: #6B7689; font-size: 13px;">
+      <div class="footer-bottom" style="max-width: 1180px; margin: 0 auto; padding: 20px 24px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; color: #6B7689; font-size: 13px;">
         <span>© 2026 ONLYSOCIAL. All rights reserved.</span>
-        <span style="display: flex; gap: 22px;"><a href="#" style="color: #6B7689; text-decoration: none; transition: color .2s;" style-hover="color: #C2CAD6;">Privacy</a><a href="#" style="color: #6B7689; text-decoration: none; transition: color .2s;" style-hover="color: #C2CAD6;">Terms</a></span>
+        <span class="footer-policy" style="display: flex; gap: 22px;"><a href="#" style="color: #6B7689; text-decoration: none; transition: color .2s;" style-hover="color: #C2CAD6;">Privacy</a><a href="#" style="color: #6B7689; text-decoration: none; transition: color .2s;" style-hover="color: #C2CAD6;">Terms</a></span>
       </div>
     </div>
   </footer>
