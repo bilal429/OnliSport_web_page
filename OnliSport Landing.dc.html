@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #0A0C11; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  *, *::before, *::after { box-sizing: border-box; }
+  ::selection { background: #00E676; color: #0A0C11; }
+  input::placeholder { color: #6B7689; }
+  @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
+  @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .35; transform: scale(.8); } }
+  @keyframes glowshift { 0%,100% { opacity: .55; } 50% { opacity: .85; } }
+</style>
+</helmet>
+
+<div style="font-family: 'Hanken Grotesk', system-ui, sans-serif; background: #0A0C11; color: #EEF1F5; overflow-x: hidden; position: relative;">
+
+  <!-- ================= NAV ================= -->
+  <nav style="position: sticky; top: 0; z-index: 50; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); background: rgba(10,12,17,0.72); border-bottom: 1px solid rgba(255,255,255,0.07);">
+    <div style="max-width: 1180px; margin: 0 auto; padding: 0 24px; height: 70px; display: flex; align-items: center; justify-content: space-between;">
+      <a href="#top" style="display: flex; align-items: center; gap: 15px; text-decoration: none;">
+        <svg width="42" height="42" viewBox="0 0 64 64" fill="none" style="filter: drop-shadow(0 0 14px rgba(0,230,118,0.4));">
+          <line x1="20.5" y1="21.9" x2="26.4" y2="27.1" stroke="#DDE2E7" stroke-width="3.4" stroke-linecap="round"></line>
+          <line x1="37.6" y1="36.9" x2="43.5" y2="42.1" stroke="#DDE2E7" stroke-width="3.4" stroke-linecap="round"></line>
+          <circle cx="16" cy="18" r="6.2" fill="#00E676"></circle>
+          <circle cx="48" cy="46" r="6.2" fill="#00E676"></circle>
+          <circle cx="32" cy="32" r="7.6" stroke="#00E676" stroke-width="3.4"></circle>
+          <circle cx="32" cy="32" r="2.9" fill="#00E676"></circle>
+        </svg>
+        <span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.01em; color: #fff;">ONLY<span style="color: #00E676;">SOCIAL</span></span>
+      </a>
+      <div style="display: flex; align-items: center; gap: 34px;">
+        <div style="display: flex; gap: 30px; align-items: center;">
+          <a href="#about" style="color: #9AA3B2; text-decoration: none; font-size: 15px; font-weight: 500; transition: color .2s;" style-hover="color: #EEF1F5;">About</a>
+          <a href="#features" style="color: #9AA3B2; text-decoration: none; font-size: 15px; font-weight: 500; transition: color .2s;" style-hover="color: #EEF1F5;">Features</a>
+          <a href="#launch" style="color: #9AA3B2; text-decoration: none; font-size: 15px; font-weight: 500; transition: color .2s;" style-hover="color: #EEF1F5;">Launch</a>
+        </div>
+        <a href="#waitlist" style="background: #00E676; color: #0A0C11; text-decoration: none; font-weight: 700; font-size: 14.5px; padding: 10px 18px; border-radius: 10px; white-space: nowrap; transition: transform .18s, box-shadow .18s;" style-hover="transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,230,118,0.32);">Join Waitlist</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ================= HERO ================= -->
+  <header id="top" style="position: relative; max-width: 1180px; margin: 0 auto; padding: 60px 24px 90px;">
+    <div style="position: absolute; top: -40px; right: 4%; width: 520px; height: 520px; background: radial-gradient(circle, rgba(0,230,118,0.16), transparent 62%); filter: blur(20px); pointer-events: none; animation: glowshift 7s ease-in-out infinite;"></div>
+    <div style="display: flex; flex-wrap: wrap; gap: 56px; align-items: center; position: relative;">
+
+      <!-- left -->
+      <div style="flex: 1.25; min-width: 330px;">
+        <div style="display: inline-flex; align-items: center; gap: 9px; padding: 7px 14px; border: 1px solid rgba(0,230,118,0.3); border-radius: 100px; background: rgba(0,230,118,0.06);">
+          <span style="width: 7px; height: 7px; border-radius: 50%; background: #00E676; animation: pulse 1.8s ease-in-out infinite;"></span>
+          <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.14em; color: #00E676;">LAUNCHING SOON · CITY BY CITY</span>
+        </div>
+
+        <h1 style="font-family: 'Archivo', sans-serif; font-weight: 900; text-transform: uppercase; font-size: clamp(2.7rem, 6.4vw, 5rem); line-height: 0.94; letter-spacing: -0.025em; margin: 22px 0 0;">
+          Find your next <span style="color: #00E676;">match.</span><br>
+          Connect with your sports community.
+        </h1>
+
+        <p style="color: #9AA3B2; font-size: clamp(1.02rem, 1.4vw, 1.2rem); line-height: 1.55; max-width: 500px; margin: 24px 0 0;">
+          A hyperlocal sports social network for amateur athletes — find local matches, connect with players, and share your best moments. Growing city by city.
+        </p>
+
+        <!-- hero waitlist form -->
+        <div style="margin-top: 32px; max-width: 480px;">
+          <sc-if value="{{ heroFormOpen }}" hint-placeholder-val="{{ true }}">
+            <form onSubmit="{{ submitHero }}" style="display: flex; gap: 10px; flex-wrap: wrap; background: #14171F; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 7px 7px 7px 7px;">
+              <input ref="{{ heroRef }}" type="email" placeholder="Enter your email" style="flex: 1; min-width: 200px; background: transparent; border: none; outline: none; color: #EEF1F5; font-family: inherit; font-size: 15.5px; padding: 11px 14px;">
+              <button type="submit" style="background: #00E676; color: #0A0C11; border: none; font-family: inherit; font-weight: 700; font-size: 15px; padding: 12px 22px; border-radius: 9px; cursor: pointer; transition: transform .18s, box-shadow .18s;" style-hover="transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,230,118,0.34);">Join the Waitlist</button>
+            </form>
+          </sc-if>
+          <sc-if value="{{ heroDone }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; align-items: center; gap: 12px; background: rgba(0,230,118,0.08); border: 1px solid rgba(0,230,118,0.3); border-radius: 14px; padding: 18px 20px;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00E676" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+              <span style="font-weight: 600; font-size: 15.5px;">You're on the list. We'll let you know the moment ONLYSOCIAL hits your city.</span>
+            </div>
+          </sc-if>
+          <sc-if value="{{ showHeroErr }}" hint-placeholder-val="{{ false }}">
+            <div style="color: #FF7A52; font-size: 13.5px; font-weight: 500; margin-top: 9px; padding-left: 4px;">{{ heroErr }}</div>
+          </sc-if>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 9px; margin-top: 18px; color: #6B7689; font-size: 13.5px; font-weight: 500;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6B7689" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"></rect><path d="M11 18h2"></path></svg>
+          iOS &amp; Android app and Web version — Coming Soon
+        </div>
+      </div>
+
+      <!-- right: phone mockup -->
+      <div style="flex: 1; min-width: 290px; display: flex; justify-content: center; position: relative;">
+        <div style="width: 288px; height: 590px; border-radius: 46px; background: linear-gradient(160deg, #1a1d27, #0A0C11); border: 1px solid rgba(255,255,255,0.1); padding: 11px; box-shadow: 0 40px 90px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04); animation: floaty 6.5s ease-in-out infinite;">
+          <div style="width: 100%; height: 100%; border-radius: 36px; background: #08090D; overflow: hidden; position: relative; display: flex; flex-direction: column;">
+            <!-- notch -->
+            
+            <!-- status bar -->
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 22px 4px; color: #EEF1F5;">
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span style="font-size: 12px; font-weight: 700;">4:24</span>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="#EEF1F5"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+              </div>
+              <div style="display: flex; gap: 6px; align-items: center;">
+                <svg width="16" height="11" viewBox="0 0 18 12" fill="#EEF1F5"><rect x="0" y="7" width="3" height="5" rx="1"></rect><rect x="5" y="4" width="3" height="8" rx="1"></rect><rect x="10" y="1.5" width="3" height="10.5" rx="1"></rect><rect x="15" y="0" width="3" height="12" rx="1"></rect></svg>
+                <svg width="15" height="12" viewBox="0 0 16 13" fill="none"><path d="M8 3.1c1.9 0 3.6.7 4.9 2l1.2-1.3A9 9 0 0 0 8 1.1 9 9 0 0 0 1.9 3.8L3.1 5A7.1 7.1 0 0 1 8 3.1z" fill="#EEF1F5"></path><path d="M8 6c1.1 0 2.1.5 2.8 1.2L12 5.9A6 6 0 0 0 8 4a6 6 0 0 0-4 1.9L5.2 7.2A4.2 4.2 0 0 1 8 6z" fill="#EEF1F5"></path><circle cx="8" cy="9.6" r="1.5" fill="#EEF1F5"></circle></svg>
+                <div style="display: flex; align-items: center; gap: 3px;"><div style="width: 20px; height: 11px; border: 1.4px solid rgba(255,255,255,0.5); border-radius: 3px; display: flex; align-items: center; padding: 1.5px;"><div style="width: 50%; height: 100%; background: #FF4D4D; border-radius: 1px;"></div></div><span style="font-size: 9px; font-weight: 700;">9</span></div>
+              </div>
+            <div style="position: absolute; top: 8px; left: 117px; transform: translateX(-50%); width: 92px; height: 23px; background: #000; border-radius: 14px; z-index: 5"></div></div>
+            <!-- app header -->
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 16px 12px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <svg width="22" height="22" viewBox="0 0 64 64" fill="none">
+                  <line x1="20.5" y1="21.9" x2="26.4" y2="27.1" stroke="#DDE2E7" stroke-width="3.8" stroke-linecap="round"></line>
+                  <line x1="37.6" y1="36.9" x2="43.5" y2="42.1" stroke="#DDE2E7" stroke-width="3.8" stroke-linecap="round"></line>
+                  <circle cx="16" cy="18" r="6.4" fill="#00E676"></circle>
+                  <circle cx="48" cy="46" r="6.4" fill="#00E676"></circle>
+                  <circle cx="32" cy="32" r="7.6" stroke="#00E676" stroke-width="3.6"></circle>
+                  <circle cx="32" cy="32" r="3" fill="#00E676"></circle>
+                </svg>
+                <span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 15px; letter-spacing: 0.01em; color: #fff;">ONLY<span style="color: #00E676;">SOCIAL</span></span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 14px;">
+                <div style="position: relative;">
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#C2CAD6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.5 21a1.8 1.8 0 0 1-3 0"></path></svg>
+                  <span style="position: absolute; top: -6px; right: -8px; background: #FF3B30; color: #fff; font-size: 8px; font-weight: 800; padding: 1px 4px; border-radius: 8px; line-height: 1.5;">58</span>
+                </div>
+                <div style="width: 26px; height: 26px; border-radius: 50%; border: 1.8px solid #00E676; display: flex; align-items: center; justify-content: center;">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C2CAD6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"></circle><path d="M5.5 20a6.5 6.5 0 0 1 13 0"></path></svg>
+                </div>
+              </div>
+            </div>
+            <!-- story row -->
+            <div style="display: flex; gap: 14px; padding: 2px 16px 14px;">
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+                <div style="position: relative; width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(150deg, #2A2E3A, #15171E); border: 1px solid rgba(255,255,255,0.1);">
+                  <span style="position: absolute; bottom: -2px; right: -2px; width: 19px; height: 19px; border-radius: 50%; background: #00E676; border: 2.5px solid #08090D; display: flex; align-items: center; justify-content: center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#06140B" stroke-width="3.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+                </div>
+                <span style="font-size: 10px; color: #9AA3B2; font-weight: 500;">Your Story</span>
+              </div>
+            </div>
+            <!-- feed -->
+            <div style="flex: 1; padding: 0 14px; display: flex; flex-direction: column; gap: 12px; overflow: hidden;">
+              <!-- match card -->
+              <div style="background: #14161D; border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; overflow: hidden;">
+                <div style="padding: 13px 14px 11px;">
+                  <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <span style="font-size: 15px; font-weight: 700; color: #fff;">Black match</span>
+                    <span style="font-size: 10.5px; color: #7E8796; font-weight: 500;">20m ago</span>
+                  </div>
+                  <div style="font-size: 11.5px; color: #9AA3B2; margin-top: 3px; font-weight: 500;">Football</div>
+                  <div style="font-size: 11.5px; color: #7E8796; margin-top: 1px;">Twins vs Pigeon team · 2 clips</div>
+                </div>
+                <div style="position: relative; height: 122px; background: linear-gradient(135deg, #20312A, #11161A 72%); border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center;">
+                  <div style="position: absolute; inset: 0; background: radial-gradient(circle at 50% 42%, rgba(0,230,118,0.13), transparent 60%);"></div>
+                  <div style="width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"></path></svg></div>
+                  <span style="position: absolute; top: 9px; right: 9px; background: rgba(0,0,0,0.6); color: #fff; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px;">1/2</span>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px;">
+                  <span style="font-size: 13px; font-weight: 600; color: #EEF1F5;">Twins</span>
+                  <span style="font-size: 17px; font-weight: 800; color: #fff; letter-spacing: 0.04em;">5 <span style="color: #7E8796; font-weight: 600;">–</span> 6</span>
+                  <span style="display: flex; align-items: center; gap: 3px; font-size: 13px; font-weight: 700; color: #00E676;">Pigeon team <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00E676" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"></path></svg></span>
+                </div>
+              </div>
+              <!-- second card (partial) -->
+              <div style="background: #14161D; border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; padding: 13px 14px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <span style="font-size: 15px; font-weight: 700; color: #fff;">U6</span>
+                  <span style="font-size: 10.5px; color: #7E8796; font-weight: 500;">21m ago</span>
+                </div>
+                <div style="font-size: 11.5px; color: #9AA3B2; margin-top: 3px; font-weight: 500;">Football</div>
+                <div style="font-size: 11.5px; color: #7E8796; margin-top: 1px;">Twins vs Pigeon team · 3 clips</div>
+              </div>
+            </div>
+            <!-- bottom nav -->
+            <div style="display: flex; justify-content: space-around; align-items: flex-end; padding: 10px 14px 18px; border-top: 1px solid rgba(255,255,255,0.07); background: #0B0D12;">
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#00E676" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"></path><path d="M5 9.5V20h14V9.5"></path></svg>
+                <span style="font-size: 9px; font-weight: 700; color: #00E676;">Home</span>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                <div style="position: relative;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#7E8796" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 21l2.1-5.4A8.5 8.5 0 1 1 21 11.5Z"></path></svg><span style="position: absolute; top: -7px; right: -9px; background: #FF3B30; color: #fff; font-size: 8px; font-weight: 800; padding: 1px 4px; border-radius: 8px;">16</span></div>
+                <span style="font-size: 9px; font-weight: 600; color: #7E8796;">Chat</span>
+              </div>
+              <div style="width: 46px; height: 46px; border-radius: 15px; background: #00E676; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(0,230,118,0.45); margin-bottom: 6px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#06140B" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#7E8796" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v3a5 5 0 0 1-10 0z"></path><path d="M7 5H4v2a3 3 0 0 0 3 3M17 5h3v2a3 3 0 0 1-3 3M9 14h6M12 11v3M8 20h8M10 17h4"></path></svg>
+                <span style="font-size: 9px; font-weight: 600; color: #7E8796;">Matches</span>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#7E8796" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4 3 7.6 7 9 4-1.4 7-5 7-9V6z"></path></svg>
+                <span style="font-size: 9px; font-weight: 600; color: #7E8796;">Teams</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ================= ABOUT ================= -->
+  <section id="about" style="max-width: 980px; margin: 0 auto; padding: 70px 24px 80px; text-align: center;">
+    <div style="font-family: 'Archivo', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.18em; color: #00E676; margin-bottom: 26px;">// WHAT IS ONLYSOCIAL</div>
+    <p style="font-size: clamp(1.5rem, 3vw, 2.35rem); font-weight: 600; line-height: 1.32; letter-spacing: -0.015em; margin: 0; text-wrap: balance;">
+      Pickup games shouldn't be hard to find. ONLYSOCIAL connects amateur athletes with <span style="color: #00E676;">local matches</span>, teammates, and opponents — then lets you <span style="color: #00E676;">share the moments</span> worth replaying. Built to grow, city by city.
+    </p>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 38px;">
+      <span style="padding: 9px 16px; border: 1px solid rgba(255,255,255,0.13); border-radius: 100px; font-size: 14px; font-weight: 600; color: #C2CAD6;">Football</span>
+      <span style="padding: 9px 16px; border: 1px solid rgba(255,255,255,0.13); border-radius: 100px; font-size: 14px; font-weight: 600; color: #C2CAD6;">Basketball</span>
+      <span style="padding: 9px 16px; border: 1px solid rgba(255,255,255,0.13); border-radius: 100px; font-size: 14px; font-weight: 600; color: #C2CAD6;">Tennis</span>
+      <span style="padding: 9px 16px; border: 1px solid rgba(255,255,255,0.13); border-radius: 100px; font-size: 14px; font-weight: 600; color: #C2CAD6;">Padel</span>
+      <span style="padding: 9px 16px; border: 1px solid rgba(255,255,255,0.13); border-radius: 100px; font-size: 14px; font-weight: 600; color: #C2CAD6;">Running</span>
+      <span style="padding: 9px 16px; border: 1px solid rgba(255,255,255,0.13); border-radius: 100px; font-size: 14px; font-weight: 600; color: #C2CAD6;">Volleyball</span>
+      <span style="padding: 9px 16px; border: 1px solid rgba(255,255,255,0.13); border-radius: 100px; font-size: 14px; font-weight: 600; color: #C2CAD6;">Cycling</span>
+      <span style="padding: 9px 16px; border: 1px solid rgba(255,255,255,0.13); border-radius: 100px; font-size: 14px; font-weight: 600; color: #C2CAD6;">Cricket</span>
+    </div>
+  </section>
+
+  <!-- ================= FEATURES ================= -->
+  <section id="features" style="max-width: 1180px; margin: 0 auto; padding: 60px 24px 80px;">
+    <div style="font-family: 'Archivo', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.18em; color: #00E676; margin-bottom: 16px;">// FEATURES</div>
+    <h2 style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.025em; line-height: 1.02; margin: 0 0 46px; max-width: 620px; text-wrap: balance;">Everything you need to play more.</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(248px, 1fr)); gap: 18px;">
+
+      <div style="background: #12151D; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 28px; transition: transform .22s, border-color .22s, box-shadow .22s;" style-hover="transform: translateY(-7px); border-color: rgba(0,230,118,0.4); box-shadow: 0 18px 44px rgba(0,0,0,0.4);">
+        <div style="width: 52px; height: 52px; border-radius: 14px; background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.22); display: flex; align-items: center; justify-content: center; color: #00E676;">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4.6"></circle><circle cx="12" cy="12" r="1" fill="currentColor"></circle><path d="M12 1v3M12 20v3M1 12h3M20 12h3"></path></svg>
+        </div>
+        <h3 style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 19px; margin: 20px 0 9px; letter-spacing: -0.01em;">Hyperlocal Match Discovery</h3>
+        <p style="color: #939CAB; font-size: 14.5px; line-height: 1.55; margin: 0;">Find pickup games and open matches happening near you — filtered by sport, skill level, and time.</p>
+      </div>
+
+      <div style="background: #12151D; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 28px; transition: transform .22s, border-color .22s, box-shadow .22s;" style-hover="transform: translateY(-7px); border-color: rgba(0,230,118,0.4); box-shadow: 0 18px 44px rgba(0,0,0,0.4);">
+        <div style="width: 52px; height: 52px; border-radius: 14px; background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.22); display: flex; align-items: center; justify-content: center; color: #00E676;">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 21l2.1-5.4A8.5 8.5 0 1 1 21 11.5Z"></path><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"></path></svg>
+        </div>
+        <h3 style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 19px; margin: 20px 0 9px; letter-spacing: -0.01em;">Real-Time Chat</h3>
+        <p style="color: #939CAB; font-size: 14.5px; line-height: 1.55; margin: 0;">Coordinate instantly with teammates and opponents before, during, and after every game.</p>
+      </div>
+
+      <div style="background: #12151D; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 28px; transition: transform .22s, border-color .22s, box-shadow .22s;" style-hover="transform: translateY(-7px); border-color: rgba(0,230,118,0.4); box-shadow: 0 18px 44px rgba(0,0,0,0.4);">
+        <div style="width: 52px; height: 52px; border-radius: 14px; background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.22); display: flex; align-items: center; justify-content: center; color: #00E676;">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="15" rx="3.5"></rect><path d="M10 9.5v5l4.5-2.5z" fill="currentColor"></path></svg>
+        </div>
+        <h3 style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 19px; margin: 20px 0 9px; letter-spacing: -0.01em;">Sports Reels</h3>
+        <p style="color: #939CAB; font-size: 14.5px; line-height: 1.55; margin: 0;">Share short-form videos of your best plays and relive the moments worth replaying.</p>
+      </div>
+
+      <div style="background: #12151D; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 28px; transition: transform .22s, border-color .22s, box-shadow .22s;" style-hover="transform: translateY(-7px); border-color: rgba(0,230,118,0.4); box-shadow: 0 18px 44px rgba(0,0,0,0.4);">
+        <div style="width: 52px; height: 52px; border-radius: 14px; background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.22); display: flex; align-items: center; justify-content: center; color: #00E676;">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"></circle><path d="M3.5 19a5.5 5.5 0 0 1 11 0"></path><path d="M16 5.4a3.2 3.2 0 0 1 0 6.1"></path><path d="M17.5 13.2A5.5 5.5 0 0 1 20.5 18.5"></path></svg>
+        </div>
+        <h3 style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 19px; margin: 20px 0 9px; letter-spacing: -0.01em;">Community Building</h3>
+        <p style="color: #939CAB; font-size: 14.5px; line-height: 1.55; margin: 0;">Follow local athletes, build your roster, and grow your sports network match by match.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= LAUNCH / COMING SOON ================= -->
+  <section id="launch" style="max-width: 1180px; margin: 0 auto; padding: 60px 24px 80px;">
+    <div style="background: linear-gradient(150deg, #12151D, #0C0E14); border: 1px solid rgba(255,255,255,0.09); border-radius: 28px; padding: clamp(36px, 6vw, 64px); position: relative; overflow: hidden;">
+      <div style="position: absolute; top: -80px; left: -40px; width: 360px; height: 360px; background: radial-gradient(circle, rgba(0,230,118,0.1), transparent 65%); filter: blur(10px); pointer-events: none;"></div>
+      <div style="position: relative; text-align: center; max-width: 680px; margin: 0 auto;">
+        <div style="font-family: 'Archivo', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.18em; color: #00E676; margin-bottom: 18px;">// THE LAUNCH</div>
+        <h2 style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: clamp(1.9rem, 4vw, 2.9rem); letter-spacing: -0.025em; line-height: 1.05; margin: 0 0 16px; text-wrap: balance;">ONLYSOCIAL is launching soon — city by city.</h2>
+        <p style="color: #939CAB; font-size: clamp(1rem, 1.4vw, 1.15rem); line-height: 1.55; margin: 0 auto 38px; max-width: 520px;">We're rolling out market by market. Get the app the moment it lands near you.</p>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 14px; justify-content: center;">
+          <!-- App Store badge (disabled) -->
+          <div style="position: relative; display: flex; align-items: center; gap: 12px; background: #181B23; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 12px 22px; opacity: 0.55; cursor: not-allowed;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="#EEF1F5"><path d="M17.05 12.9c-.03-2.6 2.12-3.85 2.22-3.91-1.21-1.77-3.09-2.01-3.76-2.04-1.6-.16-3.12.94-3.93.94-.81 0-2.06-.92-3.39-.89-1.74.03-3.35 1.01-4.25 2.57-1.81 3.14-.46 7.79 1.3 10.34.86 1.25 1.88 2.65 3.21 2.6 1.29-.05 1.78-.83 3.34-.83 1.55 0 2 .83 3.36.81 1.39-.03 2.27-1.27 3.12-2.53.98-1.45 1.39-2.85 1.41-2.92-.03-.01-2.71-1.04-2.74-4.12z"></path><path d="M14.78 5.38c.71-.86 1.19-2.06 1.06-3.25-1.02.04-2.26.68-2.99 1.54-.66.76-1.23 1.98-1.08 3.14 1.14.09 2.3-.58 3.01-1.43z"></path></svg>
+            <div style="text-align: left;">
+              <div style="font-size: 10.5px; color: #93A0AE; font-weight: 500;">Coming soon to</div>
+              <div style="font-family: 'Archivo', sans-serif; font-size: 17px; font-weight: 700; color: #EEF1F5;">App Store</div>
+            </div>
+            <span style="position: absolute; top: -9px; right: -8px; background: #00E676; color: #0A0C11; font-size: 9px; font-weight: 800; letter-spacing: 0.06em; padding: 3px 8px; border-radius: 6px; opacity: 1;">SOON</span>
+          </div>
+          <!-- Google Play badge (disabled) -->
+          <div style="position: relative; display: flex; align-items: center; gap: 12px; background: #181B23; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 12px 22px; opacity: 0.55; cursor: not-allowed;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 2.8 14 12 4 21.2c-.5-.2-.8-.7-.8-1.4V4.2c0-.7.3-1.2.8-1.4z" fill="#EEF1F5" opacity="0.9"></path><path d="m14 12 3.4-3.1 2.9 1.7c.9.5.9 1.9 0 2.4l-2.9 1.7L14 12z" fill="#EEF1F5" opacity="0.65"></path></svg>
+            <div style="text-align: left;">
+              <div style="font-size: 10.5px; color: #93A0AE; font-weight: 500;">Coming soon to</div>
+              <div style="font-family: 'Archivo', sans-serif; font-size: 17px; font-weight: 700; color: #EEF1F5;">Google Play</div>
+            </div>
+            <span style="position: absolute; top: -9px; right: -8px; background: #00E676; color: #0A0C11; font-size: 9px; font-weight: 800; letter-spacing: 0.06em; padding: 3px 8px; border-radius: 6px; opacity: 1;">SOON</span>
+          </div>
+        </div>
+
+        <div style="display: inline-flex; align-items: center; gap: 9px; margin-top: 24px; padding: 9px 16px; border: 1px dashed rgba(255,255,255,0.18); border-radius: 100px; color: #AEB6C2; font-size: 13.5px; font-weight: 600;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#AEB6C2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"></circle><path d="M2.5 12h19M12 2.5c2.5 2.6 3.9 6 4 9.5-.1 3.5-1.5 6.9-4 9.5-2.5-2.6-3.9-6-4-9.5.1-3.5 1.5-6.9 4-9.5z"></path></svg>
+          Web App — Coming Soon
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= WAITLIST (accent block) ================= -->
+  <section id="waitlist" style="padding: 20px 24px 90px;">
+    <div style="max-width: 1080px; margin: 0 auto; background: #00E676; border-radius: 30px; padding: clamp(40px, 6vw, 72px); position: relative; overflow: hidden;">
+      <div style="position: absolute; right: -60px; bottom: -80px; width: 320px; height: 320px; border: 40px solid rgba(10,12,17,0.06); border-radius: 50%; pointer-events: none;"></div>
+      <div style="position: relative; max-width: 560px;">
+        <div style="font-family: 'Archivo', sans-serif; font-size: 13px; font-weight: 800; letter-spacing: 0.16em; color: rgba(10,12,17,0.55); margin-bottom: 16px;">// JOIN THE WAITLIST</div>
+        <h2 style="font-family: 'Archivo', sans-serif; font-weight: 900; text-transform: uppercase; font-size: clamp(2.1rem, 5vw, 3.6rem); letter-spacing: -0.03em; line-height: 0.95; color: #0A0C11; margin: 0 0 14px;">Be first on the field.</h2>
+        <p style="color: rgba(10,12,17,0.7); font-size: clamp(1rem, 1.5vw, 1.18rem); font-weight: 500; line-height: 1.5; margin: 0 0 30px;">Be the first to know when ONLYSOCIAL launches in your city. No spam — just the green light.</p>
+
+        <sc-if value="{{ waitFormOpen }}" hint-placeholder-val="{{ true }}">
+          <form onSubmit="{{ submitWait }}" style="display: flex; flex-direction: column; gap: 12px; max-width: 480px;">
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+              <input ref="{{ waitRef }}" type="email" placeholder="Your email" style="flex: 1; min-width: 200px; background: #fff; border: 1px solid rgba(10,12,17,0.12); border-radius: 12px; padding: 15px 16px; font-family: inherit; font-size: 15.5px; color: #0A0C11; outline: none;">
+              <input ref="{{ cityRef }}" type="text" placeholder="Your city (optional)" style="flex: 1; min-width: 160px; background: #fff; border: 1px solid rgba(10,12,17,0.12); border-radius: 12px; padding: 15px 16px; font-family: inherit; font-size: 15.5px; color: #0A0C11; outline: none;">
+            </div>
+            <button type="submit" style="background: #0A0C11; color: #fff; border: none; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 16px; padding: 16px; border-radius: 12px; cursor: pointer; transition: transform .18s, box-shadow .18s;" style-hover="transform: translateY(-2px); box-shadow: 0 12px 30px rgba(10,12,17,0.28);">Notify Me</button>
+          </form>
+          <sc-if value="{{ showWaitErr }}" hint-placeholder-val="{{ false }}">
+            <div style="color: #B23A12; font-size: 13.5px; font-weight: 600; margin-top: 10px;">{{ waitErr }}</div>
+          </sc-if>
+        </sc-if>
+        <sc-if value="{{ waitDone }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; align-items: center; gap: 14px; background: #0A0C11; border-radius: 16px; padding: 22px 24px; max-width: 480px;">
+            <span style="flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; background: #00E676; display: flex; align-items: center; justify-content: center;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A0C11" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+            </span>
+            <div>
+              <div style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 17px; color: #fff;">You're in.</div>
+              <div style="color: #AEB6C2; font-size: 14px; margin-top: 2px;">We'll email you the moment ONLYSOCIAL goes live near you.</div>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer style="border-top: 1px solid rgba(255,255,255,0.07);">
+    <div style="max-width: 1180px; margin: 0 auto; padding: 50px 24px 40px; display: flex; flex-wrap: wrap; gap: 32px; justify-content: space-between; align-items: flex-start;">
+      <div style="max-width: 320px;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <svg width="38" height="38" viewBox="0 0 64 64" fill="none">
+            <line x1="20.5" y1="21.9" x2="26.4" y2="27.1" stroke="#DDE2E7" stroke-width="3.4" stroke-linecap="round"></line>
+            <line x1="37.6" y1="36.9" x2="43.5" y2="42.1" stroke="#DDE2E7" stroke-width="3.4" stroke-linecap="round"></line>
+            <circle cx="16" cy="18" r="6.2" fill="#00E676"></circle>
+            <circle cx="48" cy="46" r="6.2" fill="#00E676"></circle>
+            <circle cx="32" cy="32" r="7.6" stroke="#00E676" stroke-width="3.4"></circle>
+            <circle cx="32" cy="32" r="2.9" fill="#00E676"></circle>
+          </svg>
+          <span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 19px; letter-spacing: -0.01em; color: #EEF1F5;">ONLY<span style="color: #00E676;">SOCIAL</span></span>
+        </div>
+        <p style="color: #6B7689; font-size: 14.5px; line-height: 1.5; margin: 16px 0 0;">Find your next match. The hyperlocal home for amateur athletes — growing city by city.</p>
+      </div>
+
+      <div style="display: flex; gap: 56px; flex-wrap: wrap;">
+        <div style="display: flex; flex-direction: column; gap: 13px;">
+          <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: #6B7689; text-transform: uppercase;">Explore</span>
+          <a href="#about" style="color: #C2CAD6; text-decoration: none; font-size: 14.5px; transition: color .2s;" style-hover="color: #00E676;">About</a>
+          <a href="#features" style="color: #C2CAD6; text-decoration: none; font-size: 14.5px; transition: color .2s;" style-hover="color: #00E676;">Features</a>
+          <a href="#launch" style="color: #C2CAD6; text-decoration: none; font-size: 14.5px; transition: color .2s;" style-hover="color: #00E676;">Launch</a>
+          <a href="#waitlist" style="color: #C2CAD6; text-decoration: none; font-size: 14.5px; transition: color .2s;" style-hover="color: #00E676;">Join Waitlist</a>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 13px;">
+          <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: #6B7689; text-transform: uppercase;">Follow</span>
+          <div style="display: flex; gap: 11px;">
+            <a href="#" style="width: 40px; height: 40px; border-radius: 11px; border: 1px solid rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; color: #C2CAD6; transition: all .2s;" style-hover="color: #00E676; border-color: rgba(0,230,118,0.4);">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle></svg>
+            </a>
+            <a href="#" style="width: 40px; height: 40px; border-radius: 11px; border: 1px solid rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; color: #C2CAD6; transition: all .2s;" style-hover="color: #00E676; border-color: rgba(0,230,118,0.4);">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M18.2 2.5h3.3l-7.2 8.3 8.5 11.2h-6.6l-5.2-6.8-6 6.8H1.4l7.7-8.8L1 2.5h6.8l4.7 6.2 5.7-6.2zm-1.2 17.8h1.8L7.1 4.3H5.2l11.8 16z"></path></svg>
+            </a>
+            <a href="#" style="width: 40px; height: 40px; border-radius: 11px; border: 1px solid rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; color: #C2CAD6; transition: all .2s;" style-hover="color: #00E676; border-color: rgba(0,230,118,0.4);">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3V9zm6 0h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.3-.02-2.96-1.8-2.96-1.8 0-2.08 1.4-2.08 2.86V21H9V9z"></path></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="border-top: 1px solid rgba(255,255,255,0.06);">
+      <div style="max-width: 1180px; margin: 0 auto; padding: 20px 24px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; color: #6B7689; font-size: 13px;">
+        <span>© 2026 ONLYSOCIAL. All rights reserved.</span>
+        <span style="display: flex; gap: 22px;"><a href="#" style="color: #6B7689; text-decoration: none; transition: color .2s;" style-hover="color: #C2CAD6;">Privacy</a><a href="#" style="color: #6B7689; text-decoration: none; transition: color .2s;" style-hover="color: #C2CAD6;">Terms</a></span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { heroDone: false, heroErr: '', waitDone: false, waitErr: '' };
+
+  heroRef = React.createRef();
+  waitRef = React.createRef();
+  cityRef = React.createRef();
+
+  validEmail(v) {
+    return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);
+  }
+
+  submitHero = (e) => {
+    e.preventDefault();
+    const v = (this.heroRef.current && this.heroRef.current.value || '').trim();
+    if (!this.validEmail(v)) { this.setState({ heroErr: 'Please enter a valid email address.' }); return; }
+    console.log('[OnliSport waitlist · hero]', v);
+    this.setState({ heroDone: true, heroErr: '' });
+  };
+
+  submitWait = (e) => {
+    e.preventDefault();
+    const v = (this.waitRef.current && this.waitRef.current.value || '').trim();
+    const city = (this.cityRef.current && this.cityRef.current.value || '').trim();
+    if (!this.validEmail(v)) { this.setState({ waitErr: 'Please enter a valid email address.' }); return; }
+    console.log('[OnliSport waitlist]', { email: v, city: city });
+    this.setState({ waitDone: true, waitErr: '' });
+  };
+
+  renderVals() {
+    return {
+      heroRef: this.heroRef,
+      waitRef: this.waitRef,
+      cityRef: this.cityRef,
+      submitHero: this.submitHero,
+      submitWait: this.submitWait,
+      heroFormOpen: !this.state.heroDone,
+      heroDone: this.state.heroDone,
+      heroErr: this.state.heroErr,
+      showHeroErr: !!this.state.heroErr,
+      waitFormOpen: !this.state.waitDone,
+      waitDone: this.state.waitDone,
+      waitErr: this.state.waitErr,
+      showWaitErr: !!this.state.waitErr,
+    };
+  }
+}
+</script>
+</body>
+</html>
