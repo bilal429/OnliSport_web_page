@@ -1,706 +1,1045 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>onlisportz · Matches, teams and results for athletes</title>
+<meta name="description" content="onlisportz is the sports app for athletes: post and join matches, run your team and lineups, confirm results with both sides, and share the clips. Cricket, football, hockey, kabaddi, volleyball, badminton, table tennis and paddle.">
+<meta name="theme-color" content="#0A0A0F">
+<meta property="og:type" content="website">
+<meta property="og:title" content="onlisportz · Find the game. Build the team. Settle the score.">
+<meta property="og:description" content="Post and join matches, run your team, confirm results with both sides, and share the clips.">
+<link rel="icon" type="image/svg+xml" href="./assets/onlisportz-mark.svg">
 <script src="./support.js"></script>
 </head>
 <body>
+<noscript><p style="font-family: system-ui, sans-serif; color: #F4F7F5; background: #0A0A0F; padding: 24px; margin: 0;">onlisportz needs JavaScript to display this page.</p></noscript>
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&amp;family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
 <style>
-  html { scroll-behavior: smooth; }
-  body { margin: 0; background: #0A0C11; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  /* ---------- Tokens (surfaces + accent from the app theme and logo) ---------- */
+  :root {
+    color-scheme: dark;
+    --bg: #0A0A0F;
+    --bg-2: #0F0F1A;
+    --card: #141420;
+    --raised: #1E1E2E;
+    --line: rgba(255,255,255,0.07);
+    --line-2: rgba(255,255,255,0.13);
+    --text: #F4F7F5;
+    --text-2: #C6CAD3;
+    --muted: #8A8A9A;
+    --accent: #00E676;
+    --accent-ink: #04140B;
+    --accent-soft: rgba(0,230,118,0.12);
+    --accent-line: rgba(0,230,118,0.35);
+    --danger: #FF4D4D;
+    --display: 'Archivo', 'Arial Narrow', system-ui, sans-serif;
+    --body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --r-sm: 12px; --r-md: 16px; --r-lg: 22px; --r-xl: 28px;
+    --wrap: 1200px;
+    --gutter: 24px;
+    --u: 1px; /* score-card unit; scaled down inside phones and step columns */
+  }
   *, *::before, *::after { box-sizing: border-box; }
-  ::selection { background: #00E676; color: #0A0C11; }
-  input::placeholder { color: #6B7689; }
-  body { overflow-x: hidden; }
-  input, button { max-width: 100%; }
-  @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
-  @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .35; transform: scale(.8); } }
-  @keyframes glowshift { 0%,100% { opacity: .55; } 50% { opacity: .85; } }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--body); font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  img, svg { display: block; max-width: 100%; }
+  a { color: inherit; }
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+  section[id], header[id] { scroll-margin-top: 84px; }
+  .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gutter); }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  .skip { position: absolute; left: 16px; top: -60px; z-index: 100; background: var(--accent); color: var(--accent-ink); font-weight: 700; padding: 10px 16px; border-radius: 10px; text-decoration: none; }
+  .skip:focus { top: 12px; }
 
-  @media (max-width: 900px) {
-    .nav-inner {
-      height: auto !important;
-      padding: 14px 18px !important;
-      gap: 14px !important;
-      flex-wrap: wrap !important;
-    }
-    .nav-actions {
-      width: 100% !important;
-      gap: 14px !important;
-      justify-content: space-between !important;
-    }
-    .nav-links {
-      gap: 18px !important;
-      flex-wrap: wrap !important;
-    }
-    .hero-section {
-      padding: 42px 18px 58px !important;
-    }
-    .hero-layout {
-      gap: 38px !important;
-      align-items: stretch !important;
-    }
-    .hero-copy,
-    .phone-wrap {
-      flex: 1 1 100% !important;
-      min-width: 0 !important;
-      max-width: 100% !important;
-      width: 100% !important;
-    }
-    .hero-title {
-      font-size: clamp(2.25rem, 9vw, 4.4rem) !important;
-      line-height: 1 !important;
-    }
-    .content-section,
-    .launch-section {
-      padding-left: 18px !important;
-      padding-right: 18px !important;
-    }
-    .feature-grid {
-      grid-template-columns: minmax(0, 1fr) !important;
-    }
-    .footer-main,
-    .footer-bottom {
-      align-items: flex-start !important;
-    }
+  /* ---------- Type ---------- */
+  .display { font-family: var(--display); font-stretch: 112%; font-weight: 900; text-transform: uppercase; letter-spacing: -0.02em; line-height: 0.92; margin: 0; }
+  h2.title { font-family: var(--display); font-stretch: 108%; font-weight: 800; font-size: clamp(2rem, 4.2vw, 3.25rem); line-height: 1; letter-spacing: -0.025em; margin: 18px 0 0; text-wrap: balance; }
+  .lead { color: var(--text-2); font-size: clamp(1.02rem, 1.35vw, 1.18rem); line-height: 1.6; margin: 18px 0 0; max-width: 34em; }
+  .accent { color: var(--accent); }
+
+  /* Eyebrow uses the app's notched score-card tab shape */
+  .eyebrow { display: inline-flex; align-items: center; gap: 10px; height: 34px; padding: 0 26px; background: var(--card); color: var(--text-2); font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 100%, 14px 100%); }
+  .eyebrow b { color: var(--accent); font-weight: 800; }
+
+  /* ---------- Buttons ---------- */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 22px; border-radius: 999px; font-family: var(--body); font-size: 15px; font-weight: 700; text-decoration: none; border: 1.5px solid transparent; cursor: pointer; transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease, border-color .18s ease; }
+  .btn svg { width: 16px; height: 16px; }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0,230,118,0.28); }
+  .btn-ghost { border-color: var(--line-2); color: var(--text); background: transparent; }
+  .btn-ghost:hover { border-color: var(--accent-line); background: var(--accent-soft); }
+
+  /* ---------- Brand ---------- */
+  .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+  .brand img { width: 34px; height: 34px; }
+  .wordmark { font-family: var(--display); font-stretch: 100%; font-weight: 800; font-size: 21px; letter-spacing: -0.03em; color: #EEF3EF; line-height: 1; }
+  .wordmark span { color: var(--accent); }
+
+  /* ---------- Nav ---------- */
+  .nav { position: sticky; top: 0; z-index: 50; background: rgba(10,10,15,0.78); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 68px; }
+  .nav-menu { display: flex; align-items: center; gap: 28px; }
+  .nav-links { display: flex; gap: 26px; list-style: none; margin: 0; padding: 0; }
+  .nav-links a { color: var(--text-2); text-decoration: none; font-size: 14.5px; font-weight: 500; transition: color .2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav .btn { min-height: 40px; padding: 0 18px; font-size: 14px; }
+  .nav-toggle { display: none; width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--line-2); background: transparent; color: var(--text); align-items: center; justify-content: center; cursor: pointer; }
+  .nav-toggle svg { width: 20px; height: 20px; }
+
+  /* ---------- Hero ---------- */
+  .hero { position: relative; overflow: hidden; }
+  .hero::before { content: ""; position: absolute; inset: -20% -10% auto auto; width: 760px; height: 760px; background: radial-gradient(circle, rgba(0,230,118,0.14), transparent 62%); pointer-events: none; }
+  .hero-grid { position: relative; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: 48px; align-items: center; padding-top: 64px; padding-bottom: 88px; }
+  .chip { display: inline-flex; align-items: center; gap: 9px; padding: 7px 14px; border: 1px solid var(--accent-line); border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-size: 13px; font-weight: 600; }
+  .chip i { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+  .hero h1 { font-size: clamp(2.3rem, 4.6vw, 4.4rem); font-stretch: 104%; margin-top: 24px; }
+  .hero h1 .line { display: block; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+  .sports { margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--line); }
+  .sports-label { font-size: 12.5px; font-weight: 600; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  .sports ul { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 12px 0 0; }
+  .sports li { padding: 6px 13px; border: 1px solid var(--line-2); border-radius: 999px; font-size: 13.5px; font-weight: 600; color: var(--text-2); }
+
+  .hero-visual { position: relative; display: flex; flex-direction: column; align-items: center; }
+  .node-line { position: absolute; inset: -6% -14% auto auto; width: 120%; height: auto; opacity: 0.9; pointer-events: none; }
+  .float-note { position: absolute; left: -12%; top: 452px; /* sits in the empty space above the phone's tab bar */ display: flex; align-items: center; gap: 10px; background: var(--raised); border: 1px solid var(--line-2); border-radius: 14px; padding: 11px 14px; box-shadow: 0 18px 40px rgba(0,0,0,0.45); font-size: 13px; font-weight: 600; max-width: 230px; }
+  .float-note .tick { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: flex; align-items: center; justify-content: center; }
+  .float-note .tick svg { width: 15px; height: 15px; }
+  .float-note small { display: block; color: var(--muted); font-weight: 500; font-size: 11.5px; }
+  .caption { margin-top: 18px; font-size: 12px; color: var(--muted); text-align: center; max-width: 300px; }
+
+  /* ---------- Phone ---------- */
+  .phone { position: relative; width: 296px; border-radius: 46px; padding: 10px; background: linear-gradient(160deg, #22222f, #0b0b11); border: 1px solid var(--line-2); box-shadow: 0 50px 100px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.03); }
+  .screen { position: relative; border-radius: 37px; overflow: hidden; background: var(--bg); height: 600px; display: flex; flex-direction: column; }
+  .island { position: absolute; top: 9px; left: 50%; transform: translateX(-50%); width: 88px; height: 24px; border-radius: 14px; background: #000; z-index: 3; }
+  .status { display: flex; justify-content: space-between; align-items: center; padding: 14px 24px 4px; font-size: 11.5px; font-weight: 700; }
+  .status-icons { display: flex; gap: 5px; align-items: center; }
+  .status-icons svg { width: 15px; height: 11px; }
+  .app-head { display: flex; align-items: center; justify-content: space-between; padding: 8px 14px 9px; border-bottom: 1px solid var(--line); }
+  .app-head .brand img { width: 22px; height: 22px; }
+  .app-head .brand { gap: 6px; }
+  .app-head .wordmark { font-size: 14px; }
+  .app-icons { display: flex; align-items: center; gap: 10px; color: var(--muted); }
+  .app-icons svg { width: 16px; height: 16px; }
+  .bell { position: relative; }
+  .bell b { position: absolute; top: -5px; right: -6px; min-width: 13px; height: 13px; padding: 0 3px; border-radius: 7px; background: #EF4444; color: #fff; font-size: 7.5px; font-weight: 800; display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--bg); }
+  .avatar-sm { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--accent); display: flex; align-items: center; justify-content: center; font-size: 8.5px; font-weight: 800; color: var(--text); }
+  .app-body { flex: 1; overflow: hidden; padding: 10px 10px 0; display: flex; flex-direction: column; gap: 10px; }
+  /* Tab pills mirror the app's TabPills: elevated chips, the active one raised */
+  .tabs { display: flex; gap: 6px; }
+  .tabs span { padding: 6px 10px; border-radius: 9px; font-size: 10px; font-weight: 600; color: var(--muted); background: var(--bg-2); border: 1px solid var(--line); white-space: nowrap; }
+  .tabs span.on { background: var(--raised); color: var(--text); border-color: rgba(138,138,154,0.33); }
+  /* Bottom bar mirrors the app's FeedTabBar: flat, active icon on a soft green pill */
+  .tabbar { display: flex; justify-content: space-around; align-items: center; padding: 6px 4px 12px; background: var(--bg); border-top: 1px solid var(--line); }
+  .tabbar > div { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 8.5px; font-weight: 600; color: var(--muted); width: 48px; }
+  .tabbar .ic { position: relative; width: 36px; height: 26px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+  .tabbar .ic svg { width: 18px; height: 18px; }
+  .tabbar .ic b { position: absolute; top: -4px; right: 2px; min-width: 13px; height: 13px; padding: 0 3px; border-radius: 7px; background: #FF4444; color: #fff; font-size: 7.5px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .tabbar .on { color: var(--accent); }
+  .tabbar .on .ic { background: rgba(0,230,118,0.12); }
+  .tabbar > .plus { width: 40px; height: 34px; border-radius: 12px; background: var(--accent); color: var(--accent-ink); justify-content: center; }
+  .tabbar .plus svg { width: 18px; height: 18px; }
+
+  /* ---------- Score card (mirrors the app's ScoreCard component) ---------- */
+  .sc { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: calc(var(--u) * 22); padding-bottom: calc(var(--u) * 16); overflow: hidden; text-align: left; }
+  .sc-head { display: flex; justify-content: space-between; align-items: flex-start; padding: 0 calc(var(--u) * 14); }
+  .sc-tag, .sc-format { width: calc(var(--u) * 60); padding: calc(var(--u) * 9) 0; font-size: calc(var(--u) * 12); font-weight: 500; color: var(--muted); white-space: nowrap; }
+  .sc-format { text-align: right; }
+  .sc-tag.hot { color: var(--accent); font-weight: 800; }
+  .sc-tab { width: calc(var(--u) * 196); height: calc(var(--u) * 50); background: var(--bg); clip-path: polygon(0 0, 100% 0, calc(100% - var(--u) * 20) 100%, calc(var(--u) * 20) 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .sc-tab strong { font-size: calc(var(--u) * 15); font-weight: 700; line-height: 1.2; }
+  .sc-tab span { font-size: calc(var(--u) * 11); color: var(--muted); line-height: 1.3; }
+  .sc-body { display: flex; justify-content: space-between; align-items: stretch; padding: calc(var(--u) * 4) calc(var(--u) * 22) 0; }
+  .side { width: calc(var(--u) * 92); display: flex; flex-direction: column; align-items: center; gap: calc(var(--u) * 8); }
+  .side em { font-style: normal; font-size: calc(var(--u) * 13); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+  .side em.dim { color: var(--muted); }
+  .crest { width: calc(var(--u) * 62); height: calc(var(--u) * 62); border-radius: 50%; background: var(--raised); border: calc(var(--u) * 2) solid rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; font-size: calc(var(--u) * 18); font-weight: 800; }
+  .crest.g { background: linear-gradient(150deg, #0f3a26, #142019); color: var(--accent); }
+  .crest.b { background: linear-gradient(150deg, #10283a, #141a22); color: #7CC8FF; }
+  .crest.o { background: linear-gradient(150deg, #3a2a10, #1f1a14); color: #FFC56B; }
+  .crest { overflow: hidden; }
+  .crest img, .convo .av img { width: 100%; height: 100%; object-fit: cover; }
+  .convo .av { overflow: hidden; }
+  .crest.open { background: transparent; border-style: dashed; border-color: rgba(255,255,255,0.18); color: var(--muted); }
+  .crest.open svg { width: calc(var(--u) * 22); height: calc(var(--u) * 22); }
+  .sc-mid { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: calc(var(--u) * 2) 0; }
+  .vs { font-size: calc(var(--u) * 11); font-weight: 800; font-style: italic; letter-spacing: calc(var(--u) * 1); color: var(--muted); }
+  .center { font-size: calc(var(--u) * 32); font-weight: 800; line-height: 1.1; white-space: nowrap; }
+  .when { display: inline-flex; align-items: center; gap: calc(var(--u) * 6); background: var(--raised); border: 1px solid rgba(255,255,255,0.12); border-radius: 999px; padding: calc(var(--u) * 2) calc(var(--u) * 10); font-size: calc(var(--u) * 11); font-weight: 500; white-space: nowrap; }
+  .when i { width: calc(var(--u) * 6); height: calc(var(--u) * 6); border-radius: 50%; background: var(--accent); }
+  .sc-foot { display: flex; align-items: center; justify-content: space-between; gap: calc(var(--u) * 8); padding: calc(var(--u) * 12) calc(var(--u) * 18) 0; }
+  .meta { display: inline-flex; align-items: center; gap: calc(var(--u) * 4); min-width: 0; font-size: calc(var(--u) * 12); color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .meta svg { flex-shrink: 0; width: calc(var(--u) * 13); height: calc(var(--u) * 13); }
+  .pill { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; gap: calc(var(--u) * 4); height: calc(var(--u) * 36); padding: 0 calc(var(--u) * 14); border-radius: 999px; border: calc(var(--u) * 1.5) solid var(--accent); color: var(--accent); font-size: calc(var(--u) * 13); font-weight: 700; white-space: nowrap; }
+  .pill svg { width: calc(var(--u) * 14); height: calc(var(--u) * 14); }
+  .pill.solid { background: var(--accent); color: var(--accent-ink); font-weight: 800; }
+  .pill.neutral { border-color: rgba(255,255,255,0.18); color: var(--text); }
+  .phone .sc { --u: 0.76px; }
+
+  /* ---------- Section scaffolding ---------- */
+  .section { padding: 104px 0; position: relative; }
+  .section.alt { background: var(--bg-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 64px; align-items: center; }
+  .benefits { list-style: none; padding: 0; margin: 32px 0 0; display: grid; gap: 18px; }
+  .benefits li { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 14px; align-items: start; }
+  .benefits .ico { width: 36px; height: 36px; border-radius: 11px; background: var(--accent-soft); border: 1px solid var(--accent-line); color: var(--accent); display: flex; align-items: center; justify-content: center; }
+  .benefits .ico svg { width: 18px; height: 18px; }
+  .benefits strong { display: block; font-size: 15.5px; font-weight: 700; }
+  .benefits p { margin: 2px 0 0; color: var(--muted); font-size: 14.5px; line-height: 1.5; }
+
+  /* ---------- How a match works ---------- */
+  .steps-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px; }
+  .steps-head .lead { max-width: 30em; }
+  .steps { position: relative; list-style: none; padding: 0; margin: 56px 0 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+  .steps::before { content: ""; position: absolute; top: 15px; left: 15px; right: 15px; height: 3px; background: linear-gradient(90deg, rgba(238,243,239,0.55), rgba(238,243,239,0.12)); border-radius: 2px; }
+  .step { position: relative; display: flex; flex-direction: column; }
+  .step-node { position: relative; z-index: 1; width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 6px var(--bg); }
+  .step h3 { font-family: var(--display); font-stretch: 108%; font-size: 21px; font-weight: 800; letter-spacing: -0.015em; margin: 22px 0 6px; }
+  .step p { margin: 0 0 20px; color: var(--muted); font-size: 14.5px; line-height: 1.5; flex: 1; }
+  .step .sc { --u: 0.74px; }
+  .verdicts { margin-top: 40px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .verdict { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-md); padding: 18px 20px; }
+  .verdict b { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
+  .verdict b i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+  .verdict.warn b i { background: #FFB020; }
+  .verdict.vote b i { background: #7CC8FF; }
+  .verdict p { margin: 6px 0 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+
+  /* ---------- Cricket ---------- */
+  .section.cricket { background: radial-gradient(ellipse 70% 60% at 85% 0%, rgba(0,230,118,0.09), transparent 70%), var(--bg); }
+  .cricket-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; margin-top: 52px; align-items: stretch; }
+  .stack > .panel:last-child { flex: 1; }
+  .stack { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-xl); padding: 22px; }
+  .panel-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .panel-head strong { font-size: 16px; font-weight: 800; }
+  .panel-head span { font-size: 12.5px; color: var(--muted); font-weight: 600; }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; padding: 4px; background: var(--bg); border: 1px solid var(--line); border-radius: 999px; }
+  .seg button { min-height: 42px; border: 0; border-radius: 999px; background: transparent; color: var(--text-2); font: 700 14.5px var(--body); cursor: pointer; transition: background-color .2s, color .2s; }
+  .seg button:hover { color: var(--text); }
+  .seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+  .fmt-grid { list-style: none; margin: 16px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(122px, 1fr)); gap: 10px; }
+  .fmt { background: var(--raised); border: 1px solid var(--line); border-radius: 14px; padding: 12px 13px; animation: rise .35s ease both; }
+  .fmt b { display: block; font-size: 15.5px; font-weight: 800; line-height: 1.25; }
+  .fmt > span { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .fmt.hot { border-color: var(--accent-line); background: linear-gradient(160deg, rgba(0,230,118,0.16), var(--raised) 70%); }
+  .fmt.hot b { color: var(--accent); }
+  .fmt-note { display: flex; gap: 10px; align-items: flex-start; margin: 16px 0 0; padding: 12px 14px; border-radius: 14px; background: var(--bg); border: 1px solid var(--line); font-size: 13.5px; color: var(--text-2); line-height: 1.5; }
+  .fmt-note svg { flex-shrink: 0; width: 17px; height: 17px; color: var(--accent); margin-top: 1px; }
+  .bat-row { display: grid; grid-template-columns: 96px minmax(0, 1fr); align-items: center; gap: 10px; padding: 9px 0; border-top: 1px solid var(--line); }
+  .bat-row:first-of-type { border-top: 0; }
+  .bat-row > span { font-size: 11px; font-weight: 800; letter-spacing: 0.08em; color: var(--muted); }
+  .bat-row div { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pos { font-style: normal; padding: 4px 9px; border-radius: 8px; background: var(--raised); font-size: 11.5px; font-weight: 800; }
+  .pos.wk { color: #FFC56B; } .pos.ar { color: #7CC8FF; } .pos.bwl { color: var(--accent); }
+  .innings { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 8px; }
+  .innings strong { font-size: 15px; }
+  .innings b { font-size: 24px; font-weight: 800; }
+  .innings small { font-size: 12px; color: var(--muted); font-weight: 600; margin-left: 4px; }
+  .tr { display: grid; grid-template-columns: minmax(0, 1fr) repeat(4, 38px) 58px; align-items: center; padding: 8px 0; border-top: 1px solid var(--line); font-size: 13px; font-variant-numeric: tabular-nums; }
+  .tr > :not(:first-child) { text-align: right; }
+  .tr > :first-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600; }
+  .tr.th { border-top: 0; font-size: 11px; font-weight: 700; color: var(--muted); padding-top: 4px; }
+  .tr.th > :first-child { font-weight: 700; }
+  .tr .hi { color: var(--accent); font-weight: 800; }
+  .sub-head { margin: 16px 0 2px; font-size: 12px; font-weight: 700; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+  .benefits.four { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin-top: 48px; }
+
+  /* ---------- Teams visual (Browse Teams mirrors the app's Teams tab) ---------- */
+  .team-visual { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+  .browse { background: var(--bg); border: 1px solid var(--line); border-radius: var(--r-xl); padding: 16px; }
+  .browse .tabs span { font-size: 12.5px; padding: 8px 12px; border-radius: 12px; display: inline-flex; align-items: center; gap: 6px; }
+  .browse .tabs svg { width: 14px; height: 14px; }
+  .browse-head { display: flex; justify-content: space-between; align-items: center; margin: 14px 2px 12px; }
+  .browse-head strong { font-size: 16px; font-weight: 800; }
+  .browse-head span { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 12px; background: var(--raised); border: 1px solid var(--line); font-size: 12px; font-weight: 600; color: var(--text-2); }
+  .browse-head svg { width: 14px; height: 14px; }
+  .tgrid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+  .tcard { background: var(--card); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; min-width: 0; }
+  .tcover { position: relative; height: 96px; }
+  .tcover.c1 { background: radial-gradient(circle at 70% 20%, rgba(0,230,118,0.35), transparent 55%), repeating-linear-gradient(90deg, #12301f 0 18px, #0f2819 18px 36px); }
+  .tcover.c2 { background: radial-gradient(circle at 30% 30%, rgba(255,197,107,0.35), transparent 55%), repeating-linear-gradient(135deg, #2a1f10 0 14px, #231a0d 14px 28px); }
+  .tcover::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 45%, var(--card)); }
+  .tchip { position: absolute; z-index: 1; padding: 3px 9px; border-radius: 999px; background: rgba(10,10,15,0.7); border: 1px solid rgba(255,255,255,0.25); font-size: 9.5px; font-weight: 700; letter-spacing: 0.06em; }
+  .tchip.tl { top: 10px; left: 10px; }
+  .tchip.br { bottom: 8px; right: 10px; }
+  .tbody { padding: 4px 12px 12px; }
+  .tid { display: flex; align-items: center; gap: 9px; min-width: 0; }
+  .tid img { flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%; }
+  .tid div { min-width: 0; }
+  .tid strong { display: block; font-size: 14px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tid span, .tmeta span { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--muted); }
+  .tid svg, .tmeta svg { width: 12px; height: 12px; }
+  .tmeta { display: flex; justify-content: space-between; margin: 10px 2px; }
+  .tbtn { display: flex; align-items: center; justify-content: center; height: 34px; border-radius: 12px; background: var(--accent); color: var(--accent-ink); font-size: 12.5px; font-weight: 700; white-space: nowrap; }
+  .tbtn.req { background: rgba(0,230,118,0.1); color: var(--accent); border: 1.5px solid var(--accent-line); }
+  .team-panel { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-xl); overflow: hidden; box-shadow: 0 30px 70px rgba(0,0,0,0.4); }
+  .team-top { display: flex; align-items: center; gap: 14px; padding: 20px 22px; border-bottom: 1px solid var(--line); }
+  .team-top .crest { --u: 0.8px; }
+  .team-top h3 { margin: 0; font-size: 18px; font-weight: 800; }
+  .team-top p { margin: 2px 0 0; color: var(--muted); font-size: 13px; }
+  .team-top .pill { --u: 0.9px; margin-left: auto; }
+  .team-tabs { display: flex; gap: 22px; padding: 0 22px; border-bottom: 1px solid var(--line); font-size: 13px; font-weight: 600; color: var(--muted); }
+  .team-tabs span { padding: 12px 0; border-bottom: 2px solid transparent; }
+  .team-tabs span.on { color: var(--text); border-color: var(--accent); }
+  .team-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .pitch { position: relative; margin: 18px; border-radius: 16px; background: repeating-linear-gradient(180deg, #0f3a26 0 36px, #0d3322 36px 72px); border: 2px solid rgba(255,255,255,0.18); aspect-ratio: 3 / 4; display: flex; flex-direction: column; justify-content: space-around; padding: 14px 6px; }
+  .pitch::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 2px solid rgba(255,255,255,0.18); }
+  .pitch::after { content: ""; position: absolute; left: 50%; top: 50%; width: 64px; height: 64px; transform: translate(-50%, -50%); border: 2px solid rgba(255,255,255,0.18); border-radius: 50%; }
+  .row { position: relative; z-index: 1; display: flex; justify-content: space-evenly; }
+  .pl { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 9.5px; font-weight: 700; color: rgba(255,255,255,0.85); }
+  .pl i { width: 26px; height: 26px; border-radius: 50%; background: var(--text); color: var(--bg); font-style: normal; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .pl.gk i { background: var(--accent); }
+  .formation { position: absolute; z-index: 1; top: 8px; right: 10px; font-size: 10px; font-weight: 700; background: rgba(0,0,0,0.45); padding: 2px 8px; border-radius: 8px; }
+  .members { list-style: none; margin: 0; padding: 14px 18px 18px 0; display: flex; flex-direction: column; gap: 8px; }
+  .member { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 12px; background: var(--raised); }
+  .member .av { width: 30px; height: 30px; border-radius: 50%; background: #2a2a3c; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .member div { min-width: 0; }
+  .member strong { display: block; font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .member span { font-size: 11px; color: var(--muted); }
+  .role { margin-left: auto; font-size: 10px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; padding: 3px 7px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); white-space: nowrap; }
+  .role.n { background: rgba(255,255,255,0.06); color: var(--text-2); }
+  .request { border: 1px dashed var(--accent-line); background: transparent; flex-wrap: wrap; }
+  .request .acts { margin-left: auto; display: flex; gap: 6px; }
+  .request .pill { --u: 0.78px; }
+
+  /* ---------- Feed visual (mirrors the app's home feed) ---------- */
+  .app-body > * { flex-shrink: 0; } /* content runs off the bottom like a scrolling screen instead of squashing */
+  .app-body.feed { padding: 0; gap: 8px; background: #07070C; }
+  .feed .stories { padding: 8px 10px 10px; background: var(--bg); }
+  .sc.flat { border: 0; border-radius: 0; }
+  .fpost { background: var(--card); }
+  .fpost-head { display: flex; align-items: center; gap: 9px; padding: 10px 12px 8px; }
+  .gav { flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: #fff; border: 1.5px solid rgba(255,255,255,0.15); }
+  .gav.g2 { background: linear-gradient(140deg, #38BDF8, #1D4ED8); }
+  .gav.g3 { background: linear-gradient(140deg, #FB923C, #DC2626); }
+  .fpost-head strong { display: block; font-size: 11.5px; line-height: 1.3; }
+  .fpost-head div > span { display: block; font-size: 9.5px; color: var(--muted); }
+  .fpost-head > svg { margin-left: auto; width: 14px; height: 14px; color: var(--muted); }
+  .fpost-text { margin: 0; padding: 0 12px 9px; font-size: 11px; line-height: 1.45; }
+  .fpost-media { position: relative; height: 128px; overflow: hidden; background: radial-gradient(circle at 78% 18%, rgba(255,255,255,0.08) 0 34%, transparent 35%), linear-gradient(150deg, #1d5a3a, #0f2a1d); display: flex; flex-direction: column; justify-content: flex-end; padding: 12px 14px; }
+  .fpost-media i { display: block; width: 26px; height: 3px; background: rgba(255,255,255,0.8); margin-bottom: 6px; }
+  .fpost-media b { font-size: 24px; font-weight: 900; letter-spacing: 0.02em; line-height: 1; }
+  .fpost-media small { font-size: 8.5px; font-weight: 800; letter-spacing: 0.08em; margin-top: 4px; }
+  .fpost-acts { display: flex; align-items: center; gap: 14px; padding: 8px 12px 10px; font-size: 10px; color: var(--muted); }
+  .fpost-acts span { display: inline-flex; align-items: center; gap: 4px; }
+  .fpost-acts svg { width: 14px; height: 14px; }
+  .fpost-acts .r { margin-left: auto; }
+  .stories { display: flex; gap: 10px; padding: 2px 2px 0; }
+  .story { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 8.5px; color: var(--text-2); font-weight: 500; }
+  .story i { position: relative; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-style: normal; font-size: 12px; font-weight: 800; background: var(--raised); box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent); }
+  .story.me i { box-shadow: none; border: 1px solid var(--line-2); }
+  .story.me i b { position: absolute; right: -3px; bottom: -3px; width: 17px; height: 17px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); border: 2px solid var(--bg); display: flex; align-items: center; justify-content: center; font-size: 12px; line-height: 1; }
+
+  /* ---------- Off-the-field tiles ---------- */
+  .tiles { margin-top: 56px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+  .tile { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-xl); padding: 26px; display: flex; flex-direction: column; }
+  .tile h3 { font-family: var(--display); font-stretch: 108%; font-size: 22px; font-weight: 800; letter-spacing: -0.015em; margin: 0; }
+  .tile > p { color: var(--muted); font-size: 14.5px; margin: 8px 0 22px; }
+  .tile-visual { margin-top: auto; background: var(--bg); border: 1px solid var(--line); border-radius: 18px; padding: 16px; }
+  .tm { background: var(--card); border-radius: 14px; overflow: hidden; }
+  .tm .fpost-head { padding: 10px 12px; }
+  .train-media { position: relative; height: 92px; background: repeating-linear-gradient(135deg, #1a1a2a 0 14px, #161624 14px 28px); display: flex; align-items: center; justify-content: center; }
+  .train-media .play { width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; }
+  .train-media .play svg { width: 12px; height: 12px; margin-left: 2px; }
+  .train-media .dur { position: absolute; right: 8px; bottom: 8px; background: rgba(0,0,0,0.55); font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 8px; }
+  .train-notes { margin: 0; padding: 9px 12px 0; font-size: 12.5px; color: var(--text-2); }
+  .streak { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+  .streak div { background: var(--card); border-radius: 12px; padding: 10px 12px; }
+  .streak b { display: block; font-size: 22px; font-weight: 800; line-height: 1.1; }
+  .streak b.accent { color: var(--accent); }
+  .streak span { font-size: 11px; color: var(--muted); }
+  .days { display: flex; gap: 5px; margin-top: 12px; }
+  .days i { flex: 1; height: 6px; border-radius: 3px; background: var(--raised); }
+  .days i.on { background: var(--accent); }
+  .prof { display: flex; align-items: center; gap: 12px; }
+  .prof .av { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--accent); background: linear-gradient(140deg, #38BDF8, #1D4ED8); color: #fff; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .prof strong { display: block; font-size: 15px; }
+  .prof span { font-size: 12px; color: var(--muted); }
+  .counts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 14px; text-align: center; }
+  .counts b { display: block; font-size: 17px; font-weight: 800; }
+  .counts span { font-size: 10.5px; color: var(--muted); }
+  .record { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-top: 14px; }
+  .record div { background: var(--card); border-radius: 10px; padding: 8px 4px; text-align: center; }
+  .record b { display: block; font-size: 15px; font-weight: 800; }
+  .record span { font-size: 10px; color: var(--muted); }
+  /* Chat list mirrors the app's Chat tab */
+  .csearch { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-radius: 12px; background: var(--card); border: 1px solid var(--line); font-size: 12px; color: var(--muted); }
+  .csearch svg { width: 14px; height: 14px; }
+  .cfilters { display: flex; gap: 6px; margin: 10px 0 6px; overflow: hidden; }
+  .cfilters span { display: inline-flex; align-items: center; gap: 5px; padding: 6px 11px; border-radius: 10px; background: var(--bg-2); border: 1px solid var(--line); font-size: 11.5px; color: var(--muted); white-space: nowrap; }
+  .cfilters span.on { background: var(--raised); color: var(--text); border-color: rgba(138,138,154,0.33); }
+  .cfilters span.on i { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+  .convos { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .convo { display: flex; align-items: center; gap: 10px; padding: 9px 4px; border-bottom: 1px solid var(--line); }
+  .convo:last-child { border-bottom: 0; }
+  .convo.unread-row { background: var(--bg-2); }
+  .convo .av { width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  .convo .av img { width: 100%; height: 100%; object-fit: cover; }
+  .convo .av.def { background: #0f3a26; color: var(--accent); }
+  .convo .av.def svg { width: 18px; height: 18px; }
+  .convo div { min-width: 0; flex: 1; }
+  .convo strong { display: block; font-size: 13px; font-weight: 600; }
+  .convo span { display: block; font-size: 11.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .convo span b { color: var(--text-2); font-weight: 500; }
+  .convo .when-col { flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; font-size: 10.5px; color: var(--muted); }
+  .convo .when-col.new { color: var(--accent); }
+  .convo .unread { min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--accent); color: var(--accent-ink); font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+
+  /* ---------- Availability ---------- */
+  .avail { position: relative; overflow: hidden; border-radius: 32px; background: var(--accent); color: var(--accent-ink); padding: clamp(36px, 6vw, 72px); display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: 40px; align-items: center; }
+  .avail::after { content: ""; position: absolute; right: -90px; top: -90px; width: 360px; height: 360px; border-radius: 50%; border: 46px solid rgba(4,20,11,0.07); pointer-events: none; }
+  .avail .eyebrow { background: var(--accent-ink); color: var(--accent); }
+  .avail .eyebrow b { color: #fff; }
+  .avail h2 { font-family: var(--display); font-stretch: 112%; font-weight: 900; text-transform: uppercase; font-size: clamp(2.2rem, 5vw, 4rem); line-height: 0.95; letter-spacing: -0.025em; margin: 20px 0 0; }
+  .avail p { font-size: clamp(1rem, 1.4vw, 1.15rem); font-weight: 500; line-height: 1.55; margin: 16px 0 0; max-width: 32em; color: rgba(4,20,11,0.78); }
+  .stores { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 12px; }
+  .store { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-radius: 16px; background: var(--accent-ink); color: #fff; }
+  .store svg { width: 26px; height: 26px; flex-shrink: 0; }
+  .store small { display: block; font-size: 11.5px; color: #9FB3A7; font-weight: 500; }
+  .store strong { display: block; font-family: var(--display); font-size: 18px; font-weight: 700; line-height: 1.2; }
+  .store .status-tag { margin-left: auto; font-size: 10.5px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); border: 1px solid rgba(0,230,118,0.45); border-radius: 6px; padding: 3px 7px; white-space: nowrap; }
+  .avail .btn-dark { margin-top: 28px; background: var(--accent-ink); color: #fff; }
+  .avail .btn-dark:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(4,20,11,0.3); }
+
+  /* ---------- Footer ---------- */
+  .footer { border-top: 1px solid var(--line); }
+  .footer-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr)); gap: 40px; padding-top: 56px; padding-bottom: 48px; }
+  .footer p { color: var(--muted); font-size: 14.5px; margin: 14px 0 0; max-width: 22em; }
+  .footer h3 { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin: 6px 0 14px; }
+  .footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .footer li { font-size: 14.5px; color: var(--text-2); }
+  .footer a { text-decoration: none; transition: color .2s; }
+  .footer a:hover { color: var(--accent); }
+  .footer-bottom { border-top: 1px solid var(--line); }
+  .footer-bottom .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; padding-top: 20px; padding-bottom: 28px; font-size: 13px; color: var(--muted); }
+
+  /* ---------- Motion ---------- */
+  @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(0,230,118,0.55); } 70% { box-shadow: 0 0 0 7px rgba(0,230,118,0); } }
+  .hero-copy > * { animation: rise .7s cubic-bezier(.2,.7,.2,1) both; }
+  .hero-copy > :nth-child(2) { animation-delay: .06s; }
+  .hero-copy > :nth-child(3) { animation-delay: .12s; }
+  .hero-copy > :nth-child(4) { animation-delay: .18s; }
+  .hero-copy > :nth-child(5) { animation-delay: .24s; }
+  .hero-visual { animation: rise .9s .15s cubic-bezier(.2,.7,.2,1) both; }
+  .chip i, .when i { animation: pulse 2s infinite; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
   }
 
+  /* ---------- Responsive ---------- */
+  @media (max-width: 1100px) {
+    .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 44px; }
+    .steps::before { display: none; }
+    .tiles { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .tiles .tile:last-child { grid-column: 1 / -1; }
+    .benefits.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 920px) {
+    .nav-toggle { display: inline-flex; }
+    .nav-menu { display: none; position: absolute; top: 68px; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 16px; padding: 16px var(--gutter) 22px; background: var(--bg); border-bottom: 1px solid var(--line); }
+    .nav.open .nav-menu { display: flex; }
+    .nav-links { flex-direction: column; gap: 0; }
+    .nav-links a { display: block; padding: 12px 0; font-size: 16px; border-bottom: 1px solid var(--line); }
+    .nav .btn { min-height: 48px; font-size: 15px; }
+    .hero-grid { grid-template-columns: minmax(0, 1fr); padding-top: 44px; padding-bottom: 64px; gap: 56px; }
+    .split { grid-template-columns: minmax(0, 1fr); gap: 48px; }
+    .split .visual-first { order: 2; }
+    .cricket-grid { grid-template-columns: minmax(0, 1fr); }
+    .avail { grid-template-columns: minmax(0, 1fr); }
+    .footer-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .footer-grid > :first-child { grid-column: 1 / -1; }
+    .section { padding: 80px 0; }
+  }
   @media (max-width: 640px) {
-    [style*="letter-spacing"] {
-      letter-spacing: 0 !important;
-    }
-    .page-shell {
-      overflow-x: clip !important;
-    }
-    .site-nav {
-      position: sticky !important;
-    }
-    .nav-inner {
-      padding: 12px 16px !important;
-      justify-content: center !important;
-    }
-    .brand-link {
-      width: 100% !important;
-      justify-content: center !important;
-      gap: 10px !important;
-    }
-    .brand-link svg {
-      width: 36px !important;
-      height: 36px !important;
-    }
-    .brand-link span {
-      font-size: 18px !important;
-    }
-    .nav-actions {
-      flex-direction: column !important;
-      align-items: stretch !important;
-      gap: 10px !important;
-    }
-    .nav-links {
-      width: 100% !important;
-      justify-content: space-between !important;
-      gap: 10px !important;
-    }
-    .nav-links a {
-      font-size: 14px !important;
-    }
-    .nav-cta {
-      width: 100% !important;
-      text-align: center !important;
-      padding: 12px 16px !important;
-    }
-    .hero-section {
-      padding: 34px 16px 48px !important;
-    }
-    .hero-glow {
-      width: 260px !important;
-      height: 260px !important;
-      right: -80px !important;
-      top: 40px !important;
-    }
-    .hero-layout {
-      flex-direction: column !important;
-      gap: 30px !important;
-    }
-    .hero-kicker {
-      max-width: 100% !important;
-      flex-wrap: wrap !important;
-      border-radius: 14px !important;
-      padding: 7px 11px !important;
-    }
-    .hero-kicker span:last-child {
-      font-size: 11px !important;
-    }
-    .hero-title {
-      font-size: clamp(2.05rem, 10vw, 2.85rem) !important;
-      line-height: 1.04 !important;
-      margin-top: 18px !important;
-      overflow-wrap: anywhere !important;
-    }
-    .hero-text {
-      font-size: 1rem !important;
-      line-height: 1.55 !important;
-      margin-top: 18px !important;
-    }
-    .hero-form-shell {
-      max-width: none !important;
-      margin-top: 24px !important;
-    }
-    .hero-form {
-      flex-direction: column !important;
-      padding: 8px !important;
-    }
-    .form-field,
-    .form-button {
-      width: 100% !important;
-      min-width: 0 !important;
-    }
-    .form-button {
-      padding: 14px 16px !important;
-    }
-    .hero-success,
-    .waitlist-success {
-      align-items: flex-start !important;
-    }
-    .hero-note {
-      align-items: flex-start !important;
-      line-height: 1.4 !important;
-    }
-    .phone-wrap {
-      justify-content: center !important;
-    }
-    .phone-shell {
-      width: min(100%, 268px) !important;
-      height: auto !important;
-      aspect-ratio: 288 / 590 !important;
-      border-radius: 38px !important;
-      padding: 9px !important;
-      animation: none !important;
-    }
-    .about-section {
-      padding-top: 48px !important;
-      padding-bottom: 54px !important;
-    }
-    .about-section p {
-      font-size: 1.35rem !important;
-      line-height: 1.35 !important;
-    }
-    .about-chips {
-      justify-content: flex-start !important;
-      margin-top: 28px !important;
-    }
-    .features-section,
-    .launch-section {
-      padding-top: 46px !important;
-      padding-bottom: 54px !important;
-    }
-    .features-section h2,
-    .launch-section h2 {
-      font-size: 1.9rem !important;
-      line-height: 1.08 !important;
-      margin-bottom: 30px !important;
-    }
-    .feature-card {
-      padding: 22px !important;
-      border-radius: 16px !important;
-    }
-    .launch-card,
-    .waitlist-card {
-      border-radius: 20px !important;
-      padding: 30px 18px !important;
-    }
-    .launch-actions,
-    .waitlist-row,
-    .footer-main,
-    .footer-bottom {
-      flex-direction: column !important;
-      align-items: stretch !important;
-    }
-    .store-badge {
-      width: 100% !important;
-      justify-content: flex-start !important;
-      padding-right: 18px !important;
-    }
-    .launch-pill {
-      width: 100% !important;
-      justify-content: center !important;
-      border-radius: 14px !important;
-      line-height: 1.35 !important;
-    }
-    .waitlist-section {
-      padding: 10px 16px 58px !important;
-    }
-    .waitlist-ring {
-      width: 180px !important;
-      height: 180px !important;
-      right: -90px !important;
-      bottom: -90px !important;
-    }
-    .waitlist-form,
-    .waitlist-input,
-    .waitlist-submit {
-      width: 100% !important;
-      min-width: 0 !important;
-    }
-    .footer-main {
-      padding: 38px 16px 30px !important;
-      gap: 28px !important;
-    }
-    .footer-brand {
-      max-width: none !important;
-    }
-    .footer-links {
-      width: 100% !important;
-      gap: 28px !important;
-    }
-    .footer-bottom {
-      padding: 18px 16px !important;
-      gap: 14px !important;
-    }
-    .footer-policy {
-      flex-wrap: wrap !important;
-      gap: 16px !important;
-    }
+    :root { --gutter: 16px; }
+    .steps, .tiles, .verdicts, .benefits.four { grid-template-columns: minmax(0, 1fr); }
+    .panel { padding: 18px; }
+    .tr { grid-template-columns: minmax(0, 1fr) repeat(4, 30px) 46px; font-size: 12.5px; }
+    .bat-row { grid-template-columns: 84px minmax(0, 1fr); }
+    .tiles .tile:last-child { grid-column: auto; }
+    .team-cols { grid-template-columns: minmax(0, 1fr); }
+    .members { padding: 0 18px 18px; }
+    .float-note { left: 0; }
+    .node-line { width: 150%; right: -40%; }
+    .hero-actions .btn { flex: 1 1 100%; }
+    .section { padding: 64px 0; }
+    .tile { padding: 20px; }
   }
-
-  @media (max-width: 360px) {
-    .hero-section {
-      padding-left: 14px !important;
-      padding-right: 14px !important;
-    }
-    .hero-title {
-      font-size: 2rem !important;
-    }
-    .phone-shell {
-      width: min(100%, 246px) !important;
-    }
-    .nav-links a {
-      font-size: 13px !important;
-    }
+  @media (max-width: 380px) {
+    .step .sc { --u: 0.8px; }
+    .phone { width: 100%; max-width: 296px; }
   }
 </style>
 </helmet>
 
-<div class="page-shell" style="font-family: 'Hanken Grotesk', system-ui, sans-serif; background: #0A0C11; color: #EEF1F5; overflow-x: hidden; position: relative;">
+<a class="skip" href="#main">Skip to content</a>
 
-  <!-- ================= NAV ================= -->
-  <nav class="site-nav" style="position: sticky; top: 0; z-index: 50; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); background: rgba(10,12,17,0.72); border-bottom: 1px solid rgba(255,255,255,0.07);">
-    <div class="nav-inner" style="max-width: 1180px; margin: 0 auto; padding: 0 24px; height: 70px; display: flex; align-items: center; justify-content: space-between;">
-      <a class="brand-link" href="#top" style="display: flex; align-items: center; gap: 15px; text-decoration: none;">
-        <svg width="42" height="42" viewBox="0 0 64 64" fill="none" style="filter: drop-shadow(0 0 14px rgba(0,230,118,0.4));">
-          <line x1="20.5" y1="21.9" x2="26.4" y2="27.1" stroke="#DDE2E7" stroke-width="3.4" stroke-linecap="round"></line>
-          <line x1="37.6" y1="36.9" x2="43.5" y2="42.1" stroke="#DDE2E7" stroke-width="3.4" stroke-linecap="round"></line>
-          <circle cx="16" cy="18" r="6.2" fill="#00E676"></circle>
-          <circle cx="48" cy="46" r="6.2" fill="#00E676"></circle>
-          <circle cx="32" cy="32" r="7.6" stroke="#00E676" stroke-width="3.4"></circle>
-          <circle cx="32" cy="32" r="2.9" fill="#00E676"></circle>
-        </svg>
-        <span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.01em; color: #fff;">ONLY<span style="color: #00E676;">SOCIAL</span></span>
-      </a>
-      <div class="nav-actions" style="display: flex; align-items: center; gap: 34px;">
-        <div class="nav-links" style="display: flex; gap: 30px; align-items: center;">
-          <a href="#about" style="color: #9AA3B2; text-decoration: none; font-size: 15px; font-weight: 500; transition: color .2s;" style-hover="color: #EEF1F5;">About</a>
-          <a href="#features" style="color: #9AA3B2; text-decoration: none; font-size: 15px; font-weight: 500; transition: color .2s;" style-hover="color: #EEF1F5;">Features</a>
-          <a href="#launch" style="color: #9AA3B2; text-decoration: none; font-size: 15px; font-weight: 500; transition: color .2s;" style-hover="color: #EEF1F5;">Launch</a>
-        </div>
-        <a class="nav-cta" href="#waitlist" style="background: #00E676; color: #0A0C11; text-decoration: none; font-weight: 700; font-size: 14.5px; padding: 10px 18px; border-radius: 10px; white-space: nowrap; transition: transform .18s, box-shadow .18s;" style-hover="transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,230,118,0.32);">Join Waitlist</a>
+<!-- ================= NAV ================= -->
+<nav class="{{ navClass }}" aria-label="Main">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top" aria-label="onlisportz home" onClick="{{ closeMenu }}">
+      <img src="./assets/onlisportz-mark.svg" alt="" width="34" height="34">
+      <span class="wordmark" aria-hidden="true">onli<span>sportz</span></span>
+    </a>
+    <button class="nav-toggle" type="button" aria-controls="nav-menu" aria-expanded="{{ menuOpen }}" aria-label="{{ menuLabel }}" onClick="{{ toggleMenu }}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="{{ menuIcon }}"></path></svg>
+    </button>
+    <div class="nav-menu" id="nav-menu">
+      <ul class="nav-links">
+        <li><a href="#matches" onClick="{{ closeMenu }}">Matches</a></li>
+        <li><a href="#cricket" onClick="{{ closeMenu }}">Cricket</a></li>
+        <li><a href="#teams" onClick="{{ closeMenu }}">Football &amp; teams</a></li>
+        <li><a href="#feed" onClick="{{ closeMenu }}">Feed</a></li>
+        <li><a href="#off-field" onClick="{{ closeMenu }}">Training &amp; chat</a></li>
+      </ul>
+      <a class="btn btn-primary" href="#availability" onClick="{{ closeMenu }}">App availability</a>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+<!-- ================= HERO ================= -->
+<header id="top" class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="chip"><i aria-hidden="true"></i>The sports app for players and teams</span>
+      <h1 class="display">
+        <span class="line">Find the game.</span>
+        <span class="line">Build the team.</span>
+        <span class="line accent">Settle the score.</span>
+      </h1>
+      <p class="lead">onlisportz puts your whole sport in one app. Post or join matches, run your team and lineups, confirm every result with the other side, and share the clips.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#matches">See how a match works
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"></path></svg>
+        </a>
+        <a class="btn btn-ghost" href="#availability">App availability</a>
+      </div>
+      <div class="sports">
+        <span class="sports-label" id="sports-label">Sports in the app</span>
+        <ul aria-labelledby="sports-label">
+          <sc-for list="{{ sports }}" as="sport"><li>{{ sport }}</li></sc-for>
+        </ul>
       </div>
     </div>
-  </nav>
 
-  <!-- ================= HERO ================= -->
-  <header id="top" class="hero-section" style="position: relative; max-width: 1180px; margin: 0 auto; padding: 60px 24px 90px;">
-    <div class="hero-glow" style="position: absolute; top: -40px; right: 4%; width: 520px; height: 520px; background: radial-gradient(circle, rgba(0,230,118,0.16), transparent 62%); filter: blur(20px); pointer-events: none; animation: glowshift 7s ease-in-out infinite;"></div>
-    <div class="hero-layout" style="display: flex; flex-wrap: wrap; gap: 56px; align-items: center; position: relative;">
-
-      <!-- left -->
-      <div class="hero-copy" style="flex: 1.25; min-width: 330px;">
-        <div class="hero-kicker" style="display: inline-flex; align-items: center; gap: 9px; padding: 7px 14px; border: 1px solid rgba(0,230,118,0.3); border-radius: 100px; background: rgba(0,230,118,0.06);">
-          <span style="width: 7px; height: 7px; border-radius: 50%; background: #00E676; animation: pulse 1.8s ease-in-out infinite;"></span>
-          <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.14em; color: #00E676;">LAUNCHING SOON · CITY BY CITY</span>
-        </div>
-
-        <h1 class="hero-title" style="font-family: 'Archivo', sans-serif; font-weight: 900; text-transform: uppercase; font-size: clamp(2.7rem, 6.4vw, 5rem); line-height: 0.94; letter-spacing: -0.025em; margin: 22px 0 0;">
-          Find your next <span style="color: #00E676;">match.</span><br>
-          Connect with your sports community.
-        </h1>
-
-        <p class="hero-text" style="color: #9AA3B2; font-size: clamp(1.02rem, 1.4vw, 1.2rem); line-height: 1.55; max-width: 500px; margin: 24px 0 0;">
-          A hyperlocal sports social network for amateur athletes — find local matches, connect with players, and share your best moments. Growing city by city.
-        </p>
-
-        <!-- hero waitlist form -->
-        <div class="hero-form-shell" style="margin-top: 32px; max-width: 480px;">
-          <sc-if value="{{ heroFormOpen }}" hint-placeholder-val="{{ true }}">
-            <form class="hero-form" onSubmit="{{ submitHero }}" style="display: flex; gap: 10px; flex-wrap: wrap; background: #14171F; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 7px 7px 7px 7px;">
-              <input class="form-field" ref="{{ heroRef }}" type="email" placeholder="Enter your email" style="flex: 1; min-width: 200px; background: transparent; border: none; outline: none; color: #EEF1F5; font-family: inherit; font-size: 15.5px; padding: 11px 14px;">
-              <button class="form-button" type="submit" style="background: #00E676; color: #0A0C11; border: none; font-family: inherit; font-weight: 700; font-size: 15px; padding: 12px 22px; border-radius: 9px; cursor: pointer; transition: transform .18s, box-shadow .18s;" style-hover="transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,230,118,0.34);">Join the Waitlist</button>
-            </form>
-          </sc-if>
-          <sc-if value="{{ heroDone }}" hint-placeholder-val="{{ false }}">
-            <div class="hero-success" style="display: flex; align-items: center; gap: 12px; background: rgba(0,230,118,0.08); border: 1px solid rgba(0,230,118,0.3); border-radius: 14px; padding: 18px 20px;">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00E676" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
-              <span style="font-weight: 600; font-size: 15.5px;">You're on the list. We'll let you know the moment ONLYSOCIAL hits your city.</span>
-            </div>
-          </sc-if>
-          <sc-if value="{{ showHeroErr }}" hint-placeholder-val="{{ false }}">
-            <div style="color: #FF7A52; font-size: 13.5px; font-weight: 500; margin-top: 9px; padding-left: 4px;">{{ heroErr }}</div>
-          </sc-if>
-        </div>
-
-        <div class="hero-note" style="display: flex; align-items: center; gap: 9px; margin-top: 18px; color: #6B7689; font-size: 13.5px; font-weight: 500;">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6B7689" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"></rect><path d="M11 18h2"></path></svg>
-          iOS &amp; Android app and Web version — Coming Soon
-        </div>
-      </div>
-
-      <!-- right: phone mockup -->
-      <div class="phone-wrap" style="flex: 1; min-width: 290px; display: flex; justify-content: center; position: relative;">
-        <div class="phone-shell" style="width: 288px; height: 590px; border-radius: 46px; background: linear-gradient(160deg, #1a1d27, #0A0C11); border: 1px solid rgba(255,255,255,0.1); padding: 11px; box-shadow: 0 40px 90px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04); animation: floaty 6.5s ease-in-out infinite;">
-          <div style="width: 100%; height: 100%; border-radius: 36px; background: #08090D; overflow: hidden; position: relative; display: flex; flex-direction: column;">
-            <!-- notch -->
-            
-            <!-- status bar -->
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 22px 4px; color: #EEF1F5;">
-              <div style="display: flex; align-items: center; gap: 6px;">
-                <span style="font-size: 12px; font-weight: 700;">4:24</span>
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="#EEF1F5"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
-              </div>
-              <div style="display: flex; gap: 6px; align-items: center;">
-                <svg width="16" height="11" viewBox="0 0 18 12" fill="#EEF1F5"><rect x="0" y="7" width="3" height="5" rx="1"></rect><rect x="5" y="4" width="3" height="8" rx="1"></rect><rect x="10" y="1.5" width="3" height="10.5" rx="1"></rect><rect x="15" y="0" width="3" height="12" rx="1"></rect></svg>
-                <svg width="15" height="12" viewBox="0 0 16 13" fill="none"><path d="M8 3.1c1.9 0 3.6.7 4.9 2l1.2-1.3A9 9 0 0 0 8 1.1 9 9 0 0 0 1.9 3.8L3.1 5A7.1 7.1 0 0 1 8 3.1z" fill="#EEF1F5"></path><path d="M8 6c1.1 0 2.1.5 2.8 1.2L12 5.9A6 6 0 0 0 8 4a6 6 0 0 0-4 1.9L5.2 7.2A4.2 4.2 0 0 1 8 6z" fill="#EEF1F5"></path><circle cx="8" cy="9.6" r="1.5" fill="#EEF1F5"></circle></svg>
-                <div style="display: flex; align-items: center; gap: 3px;"><div style="width: 20px; height: 11px; border: 1.4px solid rgba(255,255,255,0.5); border-radius: 3px; display: flex; align-items: center; padding: 1.5px;"><div style="width: 50%; height: 100%; background: #FF4D4D; border-radius: 1px;"></div></div><span style="font-size: 9px; font-weight: 700;">9</span></div>
-              </div>
-            <div style="position: absolute; top: 8px; left: 117px; transform: translateX(-50%); width: 92px; height: 23px; background: #000; border-radius: 14px; z-index: 5"></div></div>
-            <!-- app header -->
-            <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 16px 12px;">
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <svg width="22" height="22" viewBox="0 0 64 64" fill="none">
-                  <line x1="20.5" y1="21.9" x2="26.4" y2="27.1" stroke="#DDE2E7" stroke-width="3.8" stroke-linecap="round"></line>
-                  <line x1="37.6" y1="36.9" x2="43.5" y2="42.1" stroke="#DDE2E7" stroke-width="3.8" stroke-linecap="round"></line>
-                  <circle cx="16" cy="18" r="6.4" fill="#00E676"></circle>
-                  <circle cx="48" cy="46" r="6.4" fill="#00E676"></circle>
-                  <circle cx="32" cy="32" r="7.6" stroke="#00E676" stroke-width="3.6"></circle>
-                  <circle cx="32" cy="32" r="3" fill="#00E676"></circle>
-                </svg>
-                <span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 15px; letter-spacing: 0.01em; color: #fff;">ONLY<span style="color: #00E676;">SOCIAL</span></span>
-              </div>
-              <div style="display: flex; align-items: center; gap: 14px;">
-                <div style="position: relative;">
-                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#C2CAD6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.5 21a1.8 1.8 0 0 1-3 0"></path></svg>
-                  <span style="position: absolute; top: -6px; right: -8px; background: #FF3B30; color: #fff; font-size: 8px; font-weight: 800; padding: 1px 4px; border-radius: 8px; line-height: 1.5;">58</span>
-                </div>
-                <div style="width: 26px; height: 26px; border-radius: 50%; border: 1.8px solid #00E676; display: flex; align-items: center; justify-content: center;">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C2CAD6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"></circle><path d="M5.5 20a6.5 6.5 0 0 1 13 0"></path></svg>
-                </div>
-              </div>
-            </div>
-            <!-- story row -->
-            <div style="display: flex; gap: 14px; padding: 2px 16px 14px;">
-              <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-                <div style="position: relative; width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(150deg, #2A2E3A, #15171E); border: 1px solid rgba(255,255,255,0.1);">
-                  <span style="position: absolute; bottom: -2px; right: -2px; width: 19px; height: 19px; border-radius: 50%; background: #00E676; border: 2.5px solid #08090D; display: flex; align-items: center; justify-content: center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#06140B" stroke-width="3.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></span>
-                </div>
-                <span style="font-size: 10px; color: #9AA3B2; font-weight: 500;">Your Story</span>
-              </div>
-            </div>
-            <!-- feed -->
-            <div style="flex: 1; padding: 0 14px; display: flex; flex-direction: column; gap: 12px; overflow: hidden;">
-              <!-- match card -->
-              <div style="background: #14161D; border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; overflow: hidden;">
-                <div style="padding: 13px 14px 11px;">
-                  <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                    <span style="font-size: 15px; font-weight: 700; color: #fff;">Black match</span>
-                    <span style="font-size: 10.5px; color: #7E8796; font-weight: 500;">20m ago</span>
-                  </div>
-                  <div style="font-size: 11.5px; color: #9AA3B2; margin-top: 3px; font-weight: 500;">Football</div>
-                  <div style="font-size: 11.5px; color: #7E8796; margin-top: 1px;">Twins vs Pigeon team · 2 clips</div>
-                </div>
-                <div style="position: relative; height: 122px; background: linear-gradient(135deg, #20312A, #11161A 72%); border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center;">
-                  <div style="position: absolute; inset: 0; background: radial-gradient(circle at 50% 42%, rgba(0,230,118,0.13), transparent 60%);"></div>
-                  <div style="width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"></path></svg></div>
-                  <span style="position: absolute; top: 9px; right: 9px; background: rgba(0,0,0,0.6); color: #fff; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px;">1/2</span>
-                </div>
-                <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px;">
-                  <span style="font-size: 13px; font-weight: 600; color: #EEF1F5;">Twins</span>
-                  <span style="font-size: 17px; font-weight: 800; color: #fff; letter-spacing: 0.04em;">5 <span style="color: #7E8796; font-weight: 600;">–</span> 6</span>
-                  <span style="display: flex; align-items: center; gap: 3px; font-size: 13px; font-weight: 700; color: #00E676;">Pigeon team <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00E676" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"></path></svg></span>
-                </div>
-              </div>
-              <!-- second card (partial) -->
-              <div style="background: #14161D; border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; padding: 13px 14px;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                  <span style="font-size: 15px; font-weight: 700; color: #fff;">U6</span>
-                  <span style="font-size: 10.5px; color: #7E8796; font-weight: 500;">21m ago</span>
-                </div>
-                <div style="font-size: 11.5px; color: #9AA3B2; margin-top: 3px; font-weight: 500;">Football</div>
-                <div style="font-size: 11.5px; color: #7E8796; margin-top: 1px;">Twins vs Pigeon team · 3 clips</div>
-              </div>
-            </div>
-            <!-- bottom nav -->
-            <div style="display: flex; justify-content: space-around; align-items: flex-end; padding: 10px 14px 18px; border-top: 1px solid rgba(255,255,255,0.07); background: #0B0D12;">
-              <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
-                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#00E676" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"></path><path d="M5 9.5V20h14V9.5"></path></svg>
-                <span style="font-size: 9px; font-weight: 700; color: #00E676;">Home</span>
-              </div>
-              <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
-                <div style="position: relative;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#7E8796" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 21l2.1-5.4A8.5 8.5 0 1 1 21 11.5Z"></path></svg><span style="position: absolute; top: -7px; right: -9px; background: #FF3B30; color: #fff; font-size: 8px; font-weight: 800; padding: 1px 4px; border-radius: 8px;">16</span></div>
-                <span style="font-size: 9px; font-weight: 600; color: #7E8796;">Chat</span>
-              </div>
-              <div style="width: 46px; height: 46px; border-radius: 15px; background: #00E676; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(0,230,118,0.45); margin-bottom: 6px;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#06140B" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>
-              </div>
-              <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
-                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#7E8796" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v3a5 5 0 0 1-10 0z"></path><path d="M7 5H4v2a3 3 0 0 0 3 3M17 5h3v2a3 3 0 0 1-3 3M9 14h6M12 11v3M8 20h8M10 17h4"></path></svg>
-                <span style="font-size: 9px; font-weight: 600; color: #7E8796;">Matches</span>
-              </div>
-              <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
-                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#7E8796" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4 3 7.6 7 9 4-1.4 7-5 7-9V6z"></path></svg>
-                <span style="font-size: 9px; font-weight: 600; color: #7E8796;">Teams</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </header>
-
-  <!-- ================= ABOUT ================= -->
-  <section id="about" class="content-section about-section" style="max-width: 980px; margin: 0 auto; padding: 70px 24px 80px; text-align: center;">
-    <div style="font-family: 'Archivo', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.18em; color: #00E676; margin-bottom: 26px;">// WHAT IS ONLYSOCIAL</div>
-    <p style="font-size: clamp(1.5rem, 3vw, 2.35rem); font-weight: 600; line-height: 1.32; letter-spacing: -0.015em; margin: 0; text-wrap: balance;">
-      Pickup games shouldn't be hard to find. ONLYSOCIAL connects amateur athletes with <span style="color: #00E676;">local matches</span>, teammates, and opponents — then lets you <span style="color: #00E676;">share the moments</span> worth replaying. Built to grow, city by city.
-    </p>
-    <div class="about-chips" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 38px;">
-      <span style="padding: 9px 16px; border: 1px solid rgba(255,255,255,0.13); border-radius: 100px; font-size: 14px; font-weight: 600; color: #C2CAD6;">Football</span>
-      <span style="padding: 9px 16px; border: 1px solid rgba(255,255,255,0.13); border-radius: 100px; font-size: 14px; font-weight: 600; color: #C2CAD6;">Basketball</span>
-      <span style="padding: 9px 16px; border: 1px solid rgba(255,255,255,0.13); border-radius: 100px; font-size: 14px; font-weight: 600; color: #C2CAD6;">Tennis</span>
-      <span style="padding: 9px 16px; border: 1px solid rgba(255,255,255,0.13); border-radius: 100px; font-size: 14px; font-weight: 600; color: #C2CAD6;">Padel</span>
-      <span style="padding: 9px 16px; border: 1px solid rgba(255,255,255,0.13); border-radius: 100px; font-size: 14px; font-weight: 600; color: #C2CAD6;">Running</span>
-      <span style="padding: 9px 16px; border: 1px solid rgba(255,255,255,0.13); border-radius: 100px; font-size: 14px; font-weight: 600; color: #C2CAD6;">Volleyball</span>
-      <span style="padding: 9px 16px; border: 1px solid rgba(255,255,255,0.13); border-radius: 100px; font-size: 14px; font-weight: 600; color: #C2CAD6;">Cycling</span>
-      <span style="padding: 9px 16px; border: 1px solid rgba(255,255,255,0.13); border-radius: 100px; font-size: 14px; font-weight: 600; color: #C2CAD6;">Cricket</span>
-    </div>
-  </section>
-
-  <!-- ================= FEATURES ================= -->
-  <section id="features" class="content-section features-section" style="max-width: 1180px; margin: 0 auto; padding: 60px 24px 80px;">
-    <div style="font-family: 'Archivo', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.18em; color: #00E676; margin-bottom: 16px;">// FEATURES</div>
-    <h2 style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.025em; line-height: 1.02; margin: 0 0 46px; max-width: 620px; text-wrap: balance;">Everything you need to play more.</h2>
-    <div class="feature-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(248px, 1fr)); gap: 18px;">
-
-      <div class="feature-card" style="background: #12151D; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 28px; transition: transform .22s, border-color .22s, box-shadow .22s;" style-hover="transform: translateY(-7px); border-color: rgba(0,230,118,0.4); box-shadow: 0 18px 44px rgba(0,0,0,0.4);">
-        <div style="width: 52px; height: 52px; border-radius: 14px; background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.22); display: flex; align-items: center; justify-content: center; color: #00E676;">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4.6"></circle><circle cx="12" cy="12" r="1" fill="currentColor"></circle><path d="M12 1v3M12 20v3M1 12h3M20 12h3"></path></svg>
-        </div>
-        <h3 style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 19px; margin: 20px 0 9px; letter-spacing: -0.01em;">Hyperlocal Match Discovery</h3>
-        <p style="color: #939CAB; font-size: 14.5px; line-height: 1.55; margin: 0;">Find pickup games and open matches happening near you — filtered by sport, skill level, and time.</p>
-      </div>
-
-      <div class="feature-card" style="background: #12151D; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 28px; transition: transform .22s, border-color .22s, box-shadow .22s;" style-hover="transform: translateY(-7px); border-color: rgba(0,230,118,0.4); box-shadow: 0 18px 44px rgba(0,0,0,0.4);">
-        <div style="width: 52px; height: 52px; border-radius: 14px; background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.22); display: flex; align-items: center; justify-content: center; color: #00E676;">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 21l2.1-5.4A8.5 8.5 0 1 1 21 11.5Z"></path><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"></path></svg>
-        </div>
-        <h3 style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 19px; margin: 20px 0 9px; letter-spacing: -0.01em;">Real-Time Chat</h3>
-        <p style="color: #939CAB; font-size: 14.5px; line-height: 1.55; margin: 0;">Coordinate instantly with teammates and opponents before, during, and after every game.</p>
-      </div>
-
-      <div class="feature-card" style="background: #12151D; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 28px; transition: transform .22s, border-color .22s, box-shadow .22s;" style-hover="transform: translateY(-7px); border-color: rgba(0,230,118,0.4); box-shadow: 0 18px 44px rgba(0,0,0,0.4);">
-        <div style="width: 52px; height: 52px; border-radius: 14px; background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.22); display: flex; align-items: center; justify-content: center; color: #00E676;">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="15" rx="3.5"></rect><path d="M10 9.5v5l4.5-2.5z" fill="currentColor"></path></svg>
-        </div>
-        <h3 style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 19px; margin: 20px 0 9px; letter-spacing: -0.01em;">Sports Reels</h3>
-        <p style="color: #939CAB; font-size: 14.5px; line-height: 1.55; margin: 0;">Share short-form videos of your best plays and relive the moments worth replaying.</p>
-      </div>
-
-      <div class="feature-card" style="background: #12151D; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 28px; transition: transform .22s, border-color .22s, box-shadow .22s;" style-hover="transform: translateY(-7px); border-color: rgba(0,230,118,0.4); box-shadow: 0 18px 44px rgba(0,0,0,0.4);">
-        <div style="width: 52px; height: 52px; border-radius: 14px; background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.22); display: flex; align-items: center; justify-content: center; color: #00E676;">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"></circle><path d="M3.5 19a5.5 5.5 0 0 1 11 0"></path><path d="M16 5.4a3.2 3.2 0 0 1 0 6.1"></path><path d="M17.5 13.2A5.5 5.5 0 0 1 20.5 18.5"></path></svg>
-        </div>
-        <h3 style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 19px; margin: 20px 0 9px; letter-spacing: -0.01em;">Community Building</h3>
-        <p style="color: #939CAB; font-size: 14.5px; line-height: 1.55; margin: 0;">Follow local athletes, build your roster, and grow your sports network match by match.</p>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ================= LAUNCH / COMING SOON ================= -->
-  <section id="launch" class="content-section launch-section" style="max-width: 1180px; margin: 0 auto; padding: 60px 24px 80px;">
-    <div class="launch-card" style="background: linear-gradient(150deg, #12151D, #0C0E14); border: 1px solid rgba(255,255,255,0.09); border-radius: 28px; padding: clamp(36px, 6vw, 64px); position: relative; overflow: hidden;">
-      <div style="position: absolute; top: -80px; left: -40px; width: 360px; height: 360px; background: radial-gradient(circle, rgba(0,230,118,0.1), transparent 65%); filter: blur(10px); pointer-events: none;"></div>
-      <div style="position: relative; text-align: center; max-width: 680px; margin: 0 auto;">
-        <div style="font-family: 'Archivo', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.18em; color: #00E676; margin-bottom: 18px;">// THE LAUNCH</div>
-        <h2 style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: clamp(1.9rem, 4vw, 2.9rem); letter-spacing: -0.025em; line-height: 1.05; margin: 0 0 16px; text-wrap: balance;">ONLYSOCIAL is launching soon — city by city.</h2>
-        <p style="color: #939CAB; font-size: clamp(1rem, 1.4vw, 1.15rem); line-height: 1.55; margin: 0 auto 38px; max-width: 520px;">We're rolling out market by market. Get the app the moment it lands near you.</p>
-
-        <div class="launch-actions" style="display: flex; flex-wrap: wrap; gap: 14px; justify-content: center;">
-          <!-- App Store badge (disabled) -->
-          <div class="store-badge" style="position: relative; display: flex; align-items: center; gap: 12px; background: #181B23; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 12px 22px; opacity: 0.55; cursor: not-allowed;">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="#EEF1F5"><path d="M17.05 12.9c-.03-2.6 2.12-3.85 2.22-3.91-1.21-1.77-3.09-2.01-3.76-2.04-1.6-.16-3.12.94-3.93.94-.81 0-2.06-.92-3.39-.89-1.74.03-3.35 1.01-4.25 2.57-1.81 3.14-.46 7.79 1.3 10.34.86 1.25 1.88 2.65 3.21 2.6 1.29-.05 1.78-.83 3.34-.83 1.55 0 2 .83 3.36.81 1.39-.03 2.27-1.27 3.12-2.53.98-1.45 1.39-2.85 1.41-2.92-.03-.01-2.71-1.04-2.74-4.12z"></path><path d="M14.78 5.38c.71-.86 1.19-2.06 1.06-3.25-1.02.04-2.26.68-2.99 1.54-.66.76-1.23 1.98-1.08 3.14 1.14.09 2.3-.58 3.01-1.43z"></path></svg>
-            <div style="text-align: left;">
-              <div style="font-size: 10.5px; color: #93A0AE; font-weight: 500;">Coming soon to</div>
-              <div style="font-family: 'Archivo', sans-serif; font-size: 17px; font-weight: 700; color: #EEF1F5;">App Store</div>
-            </div>
-            <span style="position: absolute; top: -9px; right: -8px; background: #00E676; color: #0A0C11; font-size: 9px; font-weight: 800; letter-spacing: 0.06em; padding: 3px 8px; border-radius: 6px; opacity: 1;">SOON</span>
-          </div>
-          <!-- Google Play badge (disabled) -->
-          <div class="store-badge" style="position: relative; display: flex; align-items: center; gap: 12px; background: #181B23; border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 12px 22px; opacity: 0.55; cursor: not-allowed;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 2.8 14 12 4 21.2c-.5-.2-.8-.7-.8-1.4V4.2c0-.7.3-1.2.8-1.4z" fill="#EEF1F5" opacity="0.9"></path><path d="m14 12 3.4-3.1 2.9 1.7c.9.5.9 1.9 0 2.4l-2.9 1.7L14 12z" fill="#EEF1F5" opacity="0.65"></path></svg>
-            <div style="text-align: left;">
-              <div style="font-size: 10.5px; color: #93A0AE; font-weight: 500;">Coming soon to</div>
-              <div style="font-family: 'Archivo', sans-serif; font-size: 17px; font-weight: 700; color: #EEF1F5;">Google Play</div>
-            </div>
-            <span style="position: absolute; top: -9px; right: -8px; background: #00E676; color: #0A0C11; font-size: 9px; font-weight: 800; letter-spacing: 0.06em; padding: 3px 8px; border-radius: 6px; opacity: 1;">SOON</span>
-          </div>
-        </div>
-
-        <div class="launch-pill" style="display: inline-flex; align-items: center; gap: 9px; margin-top: 24px; padding: 9px 16px; border: 1px dashed rgba(255,255,255,0.18); border-radius: 100px; color: #AEB6C2; font-size: 13.5px; font-weight: 600;">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#AEB6C2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"></circle><path d="M2.5 12h19M12 2.5c2.5 2.6 3.9 6 4 9.5-.1 3.5-1.5 6.9-4 9.5-2.5-2.6-3.9-6-4-9.5.1-3.5 1.5-6.9 4-9.5z"></path></svg>
-          Web App — Coming Soon
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= WAITLIST (accent block) ================= -->
-  <section id="waitlist" class="waitlist-section" style="padding: 20px 24px 90px;">
-    <div class="waitlist-card" style="max-width: 1080px; margin: 0 auto; background: #00E676; border-radius: 30px; padding: clamp(40px, 6vw, 72px); position: relative; overflow: hidden;">
-      <div class="waitlist-ring" style="position: absolute; right: -60px; bottom: -80px; width: 320px; height: 320px; border: 40px solid rgba(10,12,17,0.06); border-radius: 50%; pointer-events: none;"></div>
-      <div class="waitlist-content" style="position: relative; max-width: 560px;">
-        <div style="font-family: 'Archivo', sans-serif; font-size: 13px; font-weight: 800; letter-spacing: 0.16em; color: rgba(10,12,17,0.55); margin-bottom: 16px;">// JOIN THE WAITLIST</div>
-        <h2 style="font-family: 'Archivo', sans-serif; font-weight: 900; text-transform: uppercase; font-size: clamp(2.1rem, 5vw, 3.6rem); letter-spacing: -0.03em; line-height: 0.95; color: #0A0C11; margin: 0 0 14px;">Be first on the field.</h2>
-        <p style="color: rgba(10,12,17,0.7); font-size: clamp(1rem, 1.5vw, 1.18rem); font-weight: 500; line-height: 1.5; margin: 0 0 30px;">Be the first to know when ONLYSOCIAL launches in your city. No spam — just the green light.</p>
-
-        <sc-if value="{{ waitFormOpen }}" hint-placeholder-val="{{ true }}">
-          <form class="waitlist-form" onSubmit="{{ submitWait }}" style="display: flex; flex-direction: column; gap: 12px; max-width: 480px;">
-            <div class="waitlist-row" style="display: flex; gap: 12px; flex-wrap: wrap;">
-              <input class="waitlist-input" ref="{{ waitRef }}" type="email" placeholder="Your email" style="flex: 1; min-width: 200px; background: #fff; border: 1px solid rgba(10,12,17,0.12); border-radius: 12px; padding: 15px 16px; font-family: inherit; font-size: 15.5px; color: #0A0C11; outline: none;">
-              <input class="waitlist-input" ref="{{ cityRef }}" type="text" placeholder="Your city (optional)" style="flex: 1; min-width: 160px; background: #fff; border: 1px solid rgba(10,12,17,0.12); border-radius: 12px; padding: 15px 16px; font-family: inherit; font-size: 15.5px; color: #0A0C11; outline: none;">
-            </div>
-            <button class="waitlist-submit" type="submit" style="background: #0A0C11; color: #fff; border: none; font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 16px; padding: 16px; border-radius: 12px; cursor: pointer; transition: transform .18s, box-shadow .18s;" style-hover="transform: translateY(-2px); box-shadow: 0 12px 30px rgba(10,12,17,0.28);">Notify Me</button>
-          </form>
-          <sc-if value="{{ showWaitErr }}" hint-placeholder-val="{{ false }}">
-            <div style="color: #B23A12; font-size: 13.5px; font-weight: 600; margin-top: 10px;">{{ waitErr }}</div>
-          </sc-if>
-        </sc-if>
-        <sc-if value="{{ waitDone }}" hint-placeholder-val="{{ false }}">
-          <div class="waitlist-success" style="display: flex; align-items: center; gap: 14px; background: #0A0C11; border-radius: 16px; padding: 22px 24px; max-width: 480px;">
-            <span style="flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; background: #00E676; display: flex; align-items: center; justify-content: center;">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A0C11" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+    <figure class="hero-visual" style="margin: 0;">
+      <svg class="node-line" viewBox="0 0 600 600" fill="none" aria-hidden="true">
+        <line x1="70" y1="90" x2="530" y2="510" stroke="#EEF3EF" stroke-opacity="0.08" stroke-width="18" stroke-linecap="round"></line>
+        <circle cx="70" cy="90" r="34" fill="#00E676" fill-opacity="0.12"></circle>
+        <circle cx="530" cy="510" r="34" fill="#00E676" fill-opacity="0.12"></circle>
+      </svg>
+      <div class="phone" role="img" aria-label="The onlisportz Matches tab: an open ranked 7v7 football match starting today at 18:30 with a Send Proposal button, and a completed 5v5 match that finished 3 to 1.">
+        <div class="screen">
+          <div class="island"></div>
+          <div class="status">
+            <span>9:41</span>
+            <span class="status-icons">
+              <svg viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="1"></rect><rect x="5" y="4.5" width="3" height="7.5" rx="1"></rect><rect x="10" y="2" width="3" height="10" rx="1"></rect><rect x="15" y="0" width="3" height="12" rx="1"></rect></svg>
+              <svg viewBox="0 0 26 12" fill="none"><rect x="0.75" y="0.75" width="21" height="10.5" rx="3" stroke="currentColor" stroke-opacity="0.5" stroke-width="1.5"></rect><rect x="2.5" y="2.5" width="15" height="7" rx="1.5" fill="currentColor"></rect><rect x="23" y="4" width="2" height="4" rx="1" fill="currentColor" fill-opacity="0.5"></rect></svg>
             </span>
-            <div>
-              <div style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 17px; color: #fff;">You're in.</div>
-              <div style="color: #AEB6C2; font-size: 14px; margin-top: 2px;">We'll email you the moment ONLYSOCIAL goes live near you.</div>
+          </div>
+          <div class="app-head">
+            <span class="brand"><img src="./assets/onlisportz-mark.svg" alt="" width="22" height="22"><span class="wordmark">onli<span>sportz</span></span></span>
+            <span class="app-icons">
+              <span class="bell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.7 21a2 2 0 0 1-3.4 0"></path></svg><b>3</b></span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+              <span class="avatar-sm">AK</span>
+            </span>
+          </div>
+          <div class="app-body">
+            <div class="tabs"><span class="on">Find Matches</span><span>Scheduled</span><span>Hosted</span><span>Challenged</span></div>
+
+            <div class="sc">
+              <div class="sc-head"><span class="sc-tag">Ranked</span><span class="sc-tab"><strong>Open Match</strong><span>Football</span></span><span class="sc-format">7v7</span></div>
+              <div class="sc-body">
+                <div class="side"><span class="crest"><img src="./assets/teams/riverside-fc.svg" alt="" width="62" height="62"></span><em>Riverside FC</em></div>
+                <div class="sc-mid"><span class="vs">V/S</span><span class="center">18:30</span><span class="when"><i></i>Today · in 3h</span></div>
+                <div class="side"><span class="crest open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></span><em class="dim">Open Slot</em></div>
+              </div>
+              <div class="sc-foot">
+                <span class="meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg>Central Park pitch</span>
+                <span class="pill">Send Proposal<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"></path></svg></span>
+              </div>
+            </div>
+
+            <div class="sc">
+              <div class="sc-head"><span class="sc-tag">Friendly</span><span class="sc-tab"><strong>Completed</strong><span>Football</span></span><span class="sc-format">5v5</span></div>
+              <div class="sc-body">
+                <div class="side"><span class="crest"><img src="./assets/teams/northside.svg" alt="" width="62" height="62"></span><em>Northside</em></div>
+                <div class="sc-mid"><span class="vs">V/S</span><span class="center">3 - 1</span><span class="when">Sat, 14 Nov</span></div>
+                <div class="side"><span class="crest"><img src="./assets/teams/old-town-xi.svg" alt="" width="62" height="62"></span><em class="dim">Old Town XI</em></div>
+              </div>
             </div>
           </div>
-        </sc-if>
+          <div class="tabbar">
+            <div><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 10.5 12 3.5l8.5 7V20a1 1 0 0 1-1 1H15v-6H9v6H4.5a1 1 0 0 1-1-1z"></path></svg></span>Home</div>
+            <div><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14a1.5 1.5 0 0 1 1.5 1.5v10A1.5 1.5 0 0 1 19 17H9l-4.5 3.5V5.5A1.5 1.5 0 0 1 5 4z"></path><path d="M8.5 9h7M8.5 12.5h4.5"></path></svg><b>2</b></span>Chat</div>
+            <div class="plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></div>
+            <div class="on"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v4a5 5 0 0 1-10 0z"></path><path d="M7 5.5H4.5V7a3 3 0 0 0 3 3M17 5.5h2.5V7a3 3 0 0 1-3 3M12 13v3.5M8.5 20.5h7M9.5 16.5h5v4h-5z"></path></svg></span>Matches</div>
+            <div><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3"></circle><path d="M6.5 19.5a5.5 5.5 0 0 1 11 0"></path><circle cx="5.2" cy="10.5" r="2"></circle><circle cx="18.8" cy="10.5" r="2"></circle><path d="M1.8 18a3.6 3.6 0 0 1 4-3.2M22.2 18a3.6 3.6 0 0 0-4-3.2"></path></svg></span>Teams</div>
+          </div>
+        </div>
+      </div>
+      <div class="float-note" aria-hidden="true">
+        <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+        <span>Result accepted<small>Both sides submitted 3 - 1</small></span>
+      </div>
+      <figcaption class="caption">App screens on this page are recreated from the onlisportz interface. Team and player names are examples.</figcaption>
+    </figure>
+  </div>
+</header>
+
+<!-- ================= HOW A MATCH WORKS ================= -->
+<section id="matches" class="section alt" aria-labelledby="matches-title">
+  <div class="wrap">
+    <div class="steps-head">
+      <div>
+        <span class="eyebrow"><b>01</b> Matches &amp; results</span>
+        <h2 class="title" id="matches-title">From open slot<br>to final score.</h2>
+      </div>
+      <p class="lead">Every match follows the same path: post it, pick an opponent, play, then both sides confirm the result. No more arguing about the score in a group chat.</p>
+    </div>
+
+    <ol class="steps">
+      <li class="step">
+        <span class="step-node" aria-hidden="true">1</span>
+        <h3>Post or challenge</h3>
+        <p>Post an open match for your sport and format, ranked or friendly. Or send a direct challenge to a team you want to play.</p>
+        <div class="sc" aria-hidden="true">
+          <div class="sc-head"><span class="sc-tag">Ranked</span><span class="sc-tab"><strong>Open Match</strong><span>Cricket · Tape Ball</span></span><span class="sc-format"></span></div>
+          <div class="sc-body">
+            <div class="side"><span class="crest"><img src="./assets/teams/riverside-fc.svg" alt="" width="62" height="62"></span><em>Riverside</em></div>
+            <div class="sc-mid"><span class="vs">V/S</span><span class="center">16:00</span><span class="when">Sun, 22 Nov</span></div>
+            <div class="side"><span class="crest open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></span><em class="dim">Open Slot</em></div>
+          </div>
+          <div class="sc-foot"><span class="meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.2"></circle><path d="M3.5 19a5.5 5.5 0 0 1 11 0M16 5.4a3.2 3.2 0 0 1 0 6.1M17.5 13.2a5.5 5.5 0 0 1 3 5.3"></path></svg>2 proposals</span><span class="pill">View Proposals<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"></path></svg></span></div>
+        </div>
+      </li>
+      <li class="step">
+        <span class="step-node" aria-hidden="true">2</span>
+        <h3>Pick your opponent</h3>
+        <p>Teams send proposals to join. The host reviews them and accepts one, and the match moves to Scheduled for both sides.</p>
+        <div class="sc" aria-hidden="true">
+          <div class="sc-head"><span class="sc-tag">Applied</span><span class="sc-tab"><strong>Open Match</strong><span>Football</span></span><span class="sc-format">11v11</span></div>
+          <div class="sc-body">
+            <div class="side"><span class="crest"><img src="./assets/teams/northside.svg" alt="" width="62" height="62"></span><em>Northside</em></div>
+            <div class="sc-mid"><span class="vs">V/S</span><span class="center">19:00</span><span class="when">Fri, 27 Nov</span></div>
+            <div class="side"><span class="crest open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></span><em class="dim">Open Slot</em></div>
+          </div>
+          <div class="sc-foot"><span class="meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg>Lakeside ground</span><span class="pill neutral">Withdraw</span></div>
+        </div>
+      </li>
+      <li class="step">
+        <span class="step-node" aria-hidden="true">3</span>
+        <h3>Play it</h3>
+        <p>Scheduled matches get their own match chat, so time, venue and lineups are agreed in one place.</p>
+        <div class="sc" aria-hidden="true">
+          <div class="sc-head"><span class="sc-tag">Friendly</span><span class="sc-tab"><strong>Upcoming Match</strong><span>Volleyball</span></span><span class="sc-format"></span></div>
+          <div class="sc-body">
+            <div class="side"><span class="crest"><img src="./assets/teams/old-town-xi.svg" alt="" width="62" height="62"></span><em>Old Town</em></div>
+            <div class="sc-mid"><span class="vs">V/S</span><span class="center">20:15</span><span class="when"><i></i>Today · in 2h</span></div>
+            <div class="side"><span class="crest"><img src="./assets/teams/high-block.svg" alt="" width="62" height="62"></span><em>High Block</em></div>
+          </div>
+          <div class="sc-foot"><span class="meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg>Sports hall</span><span class="pill">Match Chat<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"></path></svg></span></div>
+        </div>
+      </li>
+      <li class="step">
+        <span class="step-node" aria-hidden="true">4</span>
+        <h3>Confirm the result</h3>
+        <p>After the game, each side submits its score. Cricket matches get a full scorecard, and clips can go with the result.</p>
+        <div class="sc" aria-hidden="true">
+          <div class="sc-head"><span class="sc-tag">Ranked</span><span class="sc-tab"><strong>Result Pending</strong><span>Badminton</span></span><span class="sc-format"></span></div>
+          <div class="sc-body">
+            <div class="side"><span class="crest b">SK</span><em>Sana K.</em></div>
+            <div class="sc-mid"><span class="vs">V/S</span><span class="center">17:30</span><span class="when">Today</span></div>
+            <div class="side"><span class="crest g">AM</span><em>Ali M.</em></div>
+          </div>
+          <div class="sc-foot"><span class="meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg>Court 3</span><span class="pill solid">Submit Result</span></div>
+        </div>
+      </li>
+    </ol>
+
+    <div class="verdicts">
+      <div class="verdict"><b><i aria-hidden="true"></i>Scores match</b><p>When both sides submit the same score, it's accepted and goes on both teams' records.</p></div>
+      <div class="verdict warn"><b><i aria-hidden="true"></i>Scores differ</b><p>The other side can accept or dispute what was submitted. A disputed result is flagged on the match.</p></div>
+      <div class="verdict vote"><b><i aria-hidden="true"></i>Community vote</b><p>Players outside the match vote on a disputed result. Nobody from either team gets a say.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CRICKET ================= -->
+<section id="cricket" class="section cricket" aria-labelledby="cricket-title">
+  <div class="wrap">
+    <div class="steps-head">
+      <div>
+        <span class="eyebrow"><b>02</b> Cricket</span>
+        <h2 class="title" id="cricket-title">Tape ball, hard ball,<br><span class="accent">every format.</span></h2>
+      </div>
+      <p class="lead">From a single-wicket duel to a 50-over ODI, set up the cricket you actually play. onlisportz keeps the overs, the batting order and both innings in one place.</p>
+    </div>
+
+    <div class="cricket-grid">
+      <div class="stack">
+        <div class="panel">
+          <div class="panel-head"><strong>Pick your cricket</strong><span>Create match · Cricket</span></div>
+          <div class="seg" role="group" aria-label="Ball type">
+            <button type="button" aria-pressed="{{ isTape }}" onClick="{{ showTape }}">Tape Ball</button>
+            <button type="button" aria-pressed="{{ isHard }}" onClick="{{ showHard }}">Hard Ball</button>
+          </div>
+          <ul class="fmt-grid" aria-live="polite" aria-label="{{ formatsLabel }}">
+            <sc-for list="{{ formats }}" as="f"><li class="{{ f.cls }}"><b>{{ f.name }}</b><span>{{ f.overs }}</span><span>{{ f.players }}</span></li></sc-for>
+          </ul>
+          <p class="fmt-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5M12 8h.01"></path></svg><span>{{ ballNote }}</span></p>
+        </div>
+
+        <div class="panel" role="img" aria-label="A cricket batting order in the Classic preset: two openers, three top-order batters, then wicketkeeper, all-rounder and bowler in the middle, and three bowlers in the tail.">
+          <div class="panel-head"><strong>Batting order</strong><span>Preset · Classic</span></div>
+          <div class="bat-row"><span>OPENERS</span><div><i class="pos">OPN</i><i class="pos">OPN</i></div></div>
+          <div class="bat-row"><span>TOP ORDER</span><div><i class="pos">BAT</i><i class="pos">BAT</i><i class="pos">BAT</i></div></div>
+          <div class="bat-row"><span>MIDDLE</span><div><i class="pos wk">WK</i><i class="pos ar">AR</i><i class="pos bwl">BWL</i></div></div>
+          <div class="bat-row"><span>TAIL</span><div><i class="pos bwl">BWL</i><i class="pos bwl">BWL</i><i class="pos bwl">BWL</i></div></div>
+        </div>
+      </div>
+
+      <div class="stack">
+        <div class="sc" aria-hidden="true">
+          <div class="sc-head"><span class="sc-tag hot">WIN</span><span class="sc-tab"><strong>Completed</strong><span>Cricket · Tape Ball</span></span><span class="sc-format">T10</span></div>
+          <div class="sc-body">
+            <div class="side"><span class="crest"><img src="./assets/teams/old-town-xi.svg" alt="" width="62" height="62"></span><em>Old Town XI</em></div>
+            <div class="sc-mid"><span class="vs">V/S</span><span class="center">84 - 79</span><span class="when">Sun, 15 Nov</span></div>
+            <div class="side"><span class="crest"><img src="./assets/teams/northside.svg" alt="" width="62" height="62"></span><em class="dim">Northside</em></div>
+          </div>
+          <div class="sc-foot"><span class="meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>Both innings accepted</span><span class="pill">View Scorecard<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"></path></svg></span></div>
+        </div>
+
+        <div class="panel" role="img" aria-label="Scorecard for Old Town XI's innings: 84 for 3 in 10 overs, with batting figures for three batters and bowling figures for two Northside bowlers.">
+          <div class="innings"><strong>Old Town XI · 1st innings</strong><span><b>84/3</b><small>10 ov</small></span></div>
+          <div class="tr th"><span>Batsman</span><span>R</span><span>B</span><span>4s</span><span>6s</span><span>SR</span></div>
+          <div class="tr"><span>Usman T.</span><span class="hi">38</span><span>22</span><span>3</span><span>2</span><span>172.7</span></div>
+          <div class="tr"><span>Ali K.</span><span>27</span><span>19</span><span>2</span><span>1</span><span>142.1</span></div>
+          <div class="tr"><span>Zain H.</span><span>11*</span><span>9</span><span>1</span><span>0</span><span>122.2</span></div>
+          <p class="sub-head">Northside bowling</p>
+          <div class="tr th"><span>Bowler</span><span>O</span><span>M</span><span>R</span><span>W</span><span>Econ</span></div>
+          <div class="tr"><span>Hamza Q.</span><span>2</span><span>0</span><span>14</span><span>1</span><span>7.0</span></div>
+          <div class="tr"><span>Bilal R.</span><span>2</span><span>0</span><span>19</span><span class="hi">2</span><span>9.5</span></div>
+        </div>
       </div>
     </div>
-  </section>
 
-  <!-- ================= FOOTER ================= -->
-  <footer class="site-footer" style="border-top: 1px solid rgba(255,255,255,0.07);">
-    <div class="footer-main" style="max-width: 1180px; margin: 0 auto; padding: 50px 24px 40px; display: flex; flex-wrap: wrap; gap: 32px; justify-content: space-between; align-items: flex-start;">
-      <div class="footer-brand" style="max-width: 320px;">
-        <div style="display: flex; align-items: center; gap: 14px;">
-          <svg width="38" height="38" viewBox="0 0 64 64" fill="none">
-            <line x1="20.5" y1="21.9" x2="26.4" y2="27.1" stroke="#DDE2E7" stroke-width="3.4" stroke-linecap="round"></line>
-            <line x1="37.6" y1="36.9" x2="43.5" y2="42.1" stroke="#DDE2E7" stroke-width="3.4" stroke-linecap="round"></line>
-            <circle cx="16" cy="18" r="6.2" fill="#00E676"></circle>
-            <circle cx="48" cy="46" r="6.2" fill="#00E676"></circle>
-            <circle cx="32" cy="32" r="7.6" stroke="#00E676" stroke-width="3.4"></circle>
-            <circle cx="32" cy="32" r="2.9" fill="#00E676"></circle>
-          </svg>
-          <span style="font-family: 'Archivo', sans-serif; font-weight: 800; font-size: 19px; letter-spacing: -0.01em; color: #EEF1F5;">ONLY<span style="color: #00E676;">SOCIAL</span></span>
-        </div>
-        <p style="color: #6B7689; font-size: 14.5px; line-height: 1.5; margin: 16px 0 0;">Find your next match. The hyperlocal home for amateur athletes — growing city by city.</p>
-      </div>
+    <ul class="benefits four">
+      <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20 17 4"></path><path d="M10 20 20 4"></path><circle cx="6" cy="9" r="2.5"></circle></svg></span><div><strong>Single &amp; Double Wicket</strong><p>Play one-on-one or in pairs. An out doesn't end the innings, so both sides bat their full overs.</p></div></li>
+      <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M8 5.5c2.5 4 2.5 9 0 13M16 5.5c-2.5 4-2.5 9 0 13"></path></svg></span><div><strong>Tape ball or hard ball</strong><p>Choose the ball when you post the match. Each ball type gets its own formats, from 4 overs to 50.</p></div></li>
+      <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M8 8h8M8 12h8M8 16h5"></path></svg></span><div><strong>Your innings, your scorecard</strong><p>Each captain enters their own innings with batting and bowling figures. The other side reviews it, then accepts or disputes.</p></div></li>
+      <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"></circle><path d="M3.5 19a5.5 5.5 0 0 1 11 0"></path><path d="M16 4.5l1.2 2.4 2.6.4-1.9 1.8.5 2.6-2.4-1.3-2.3 1.3.4-2.6-1.9-1.8 2.6-.4z"></path></svg></span><div><strong>Batsman, bowler, all-rounder</strong><p>Players pick their cricket role, and captains build the batting order from presets like Classic, T20 Attack and Bowling Heavy.</p></div></li>
+    </ul>
+  </div>
+</section>
 
-      <div class="footer-links" style="display: flex; gap: 56px; flex-wrap: wrap;">
-        <div style="display: flex; flex-direction: column; gap: 13px;">
-          <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: #6B7689; text-transform: uppercase;">Explore</span>
-          <a href="#about" style="color: #C2CAD6; text-decoration: none; font-size: 14.5px; transition: color .2s;" style-hover="color: #00E676;">About</a>
-          <a href="#features" style="color: #C2CAD6; text-decoration: none; font-size: 14.5px; transition: color .2s;" style-hover="color: #00E676;">Features</a>
-          <a href="#launch" style="color: #C2CAD6; text-decoration: none; font-size: 14.5px; transition: color .2s;" style-hover="color: #00E676;">Launch</a>
-          <a href="#waitlist" style="color: #C2CAD6; text-decoration: none; font-size: 14.5px; transition: color .2s;" style-hover="color: #00E676;">Join Waitlist</a>
+<!-- ================= TEAMS ================= -->
+<section id="teams" class="section alt" aria-labelledby="teams-title">
+  <div class="wrap split">
+    <div>
+      <span class="eyebrow"><b>03</b> Football &amp; teams</span>
+      <h2 class="title" id="teams-title">Run your side like a club.</h2>
+      <p class="lead">Browse teams by sport and ask to join, or create your own and you're its captain. Bring players in, give them a role, and set the lineup before every match.</p>
+      <ul class="benefits">
+        <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4 3 7.6 7 9 4-1.4 7-5 7-9V6z"></path><path d="m9 12 2 2 4-4"></path></svg></span><div><strong>Roles that match real teams</strong><p>Captain, co-captain, manager and member, each with the right permissions. Captaincy can be handed over at any time.</p></div></li>
+        <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"></circle><path d="M3.5 19a5.5 5.5 0 0 1 11 0"></path><path d="M19 8v6M16 11h6"></path></svg></span><div><strong>Join requests</strong><p>Players ask to join. Captains, co-captains and managers approve or decline them.</p></div></li>
+        <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M4 12h16"></path><circle cx="12" cy="12" r="2.5"></circle></svg></span><div><strong>Lineups on a formation</strong><p>Set your football lineup on a formation that fits the format, from 5v5 to 11v11.</p></div></li>
+        <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"></path></svg></span><div><strong>Fans and history</strong><p>Supporters can fan your team and follow its match history. Members get a team chat, and fans get a room of their own.</p></div></li>
+      </ul>
+    </div>
+
+    <div class="team-visual">
+    <div class="browse" role="img" aria-label="The onlisportz Browse Teams tab with two team cards: Riverside FC, a football team with 9 members and a Join Team button, and Old Town XI, a tape ball cricket team with 11 members where the join request is already sent.">
+      <div class="tabs"><span class="on"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm3.6 6.4-2 5.2-5.2 2 2-5.2z"></path></svg>Browse Teams</span><span>My Teams</span><span>Joined</span></div>
+      <div class="browse-head"><strong>Browse Teams</strong><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"></path><circle cx="16" cy="7" r="2"></circle><circle cx="10" cy="17" r="2"></circle></svg>Filter</span></div>
+      <div class="tgrid">
+        <div class="tcard">
+          <div class="tcover c1"><span class="tchip tl">FOOTBALL</span></div>
+          <div class="tbody">
+            <div class="tid"><img src="./assets/teams/riverside-fc.svg" alt="" width="34" height="34"><div><strong>Riverside FC</strong><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg>Riverside</span></div></div>
+            <div class="tmeta"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3"></circle><path d="M6.5 19.5a5.5 5.5 0 0 1 11 0"></path><circle cx="5.2" cy="10.5" r="2"></circle><circle cx="18.8" cy="10.5" r="2"></circle><path d="M1.8 18a3.6 3.6 0 0 1 4-3.2M22.2 18a3.6 3.6 0 0 0-4-3.2"></path></svg>9</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="5"></circle><path d="M13.5 10.5 20 4M15 4h5v5"></path></svg>Men</span></div>
+            <span class="tbtn">Join Team</span>
+          </div>
         </div>
-        <div style="display: flex; flex-direction: column; gap: 13px;">
-          <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: #6B7689; text-transform: uppercase;">Follow</span>
-          <div style="display: flex; gap: 11px;">
-            <a href="#" style="width: 40px; height: 40px; border-radius: 11px; border: 1px solid rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; color: #C2CAD6; transition: all .2s;" style-hover="color: #00E676; border-color: rgba(0,230,118,0.4);">
-              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle></svg>
-            </a>
-            <a href="#" style="width: 40px; height: 40px; border-radius: 11px; border: 1px solid rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; color: #C2CAD6; transition: all .2s;" style-hover="color: #00E676; border-color: rgba(0,230,118,0.4);">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M18.2 2.5h3.3l-7.2 8.3 8.5 11.2h-6.6l-5.2-6.8-6 6.8H1.4l7.7-8.8L1 2.5h6.8l4.7 6.2 5.7-6.2zm-1.2 17.8h1.8L7.1 4.3H5.2l11.8 16z"></path></svg>
-            </a>
-            <a href="#" style="width: 40px; height: 40px; border-radius: 11px; border: 1px solid rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; color: #C2CAD6; transition: all .2s;" style-hover="color: #00E676; border-color: rgba(0,230,118,0.4);">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3V9zm6 0h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.3-.02-2.96-1.8-2.96-1.8 0-2.08 1.4-2.08 2.86V21H9V9z"></path></svg>
-            </a>
+        <div class="tcard">
+          <div class="tcover c2"><span class="tchip tl">CRICKET</span><span class="tchip br">TAPE BALL</span></div>
+          <div class="tbody">
+            <div class="tid"><img src="./assets/teams/old-town-xi.svg" alt="" width="34" height="34"><div><strong>Old Town XI</strong><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg>Old Town</span></div></div>
+            <div class="tmeta"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3"></circle><path d="M6.5 19.5a5.5 5.5 0 0 1 11 0"></path><circle cx="5.2" cy="10.5" r="2"></circle><circle cx="18.8" cy="10.5" r="2"></circle><path d="M1.8 18a3.6 3.6 0 0 1 4-3.2M22.2 18a3.6 3.6 0 0 0-4-3.2"></path></svg>11</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="5"></circle><path d="M13.5 10.5 20 4M15 4h5v5"></path></svg>Mixed</span></div>
+            <span class="tbtn req">✓ Requested</span>
           </div>
         </div>
       </div>
     </div>
-    <div style="border-top: 1px solid rgba(255,255,255,0.06);">
-      <div class="footer-bottom" style="max-width: 1180px; margin: 0 auto; padding: 20px 24px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; color: #6B7689; font-size: 13px;">
-        <span>© 2026 ONLYSOCIAL. All rights reserved.</span>
-        <span class="footer-policy" style="display: flex; gap: 22px;"><a href="#" style="color: #6B7689; text-decoration: none; transition: color .2s;" style-hover="color: #C2CAD6;">Privacy</a><a href="#" style="color: #6B7689; text-decoration: none; transition: color .2s;" style-hover="color: #C2CAD6;">Terms</a></span>
+    <div class="team-panel" role="img" aria-label="An onlisportz team page for Riverside FC: a 7v7 lineup in a 2-3-1 formation, the member list with captain, co-captain and manager roles, and a pending join request with approve and decline buttons.">
+      <div class="team-top">
+        <span class="crest"><img src="./assets/teams/riverside-fc.svg" alt="" width="62" height="62"></span>
+        <div><h3>Riverside FC</h3><p>Football · 9 members</p></div>
+        <span class="pill solid">Set Lineup</span>
+      </div>
+      <div class="team-tabs"><span>Members</span><span class="on">Lineups</span><span>History</span></div>
+      <div class="team-cols">
+        <div class="pitch">
+          <span class="formation">7v7 · 2-3-1</span>
+          <div class="row"><span class="pl"><i>9</i>FWD</span></div>
+          <div class="row"><span class="pl"><i>7</i>MID</span><span class="pl"><i>8</i>MID</span><span class="pl"><i>10</i>MID</span></div>
+          <div class="row"><span class="pl"><i>4</i>DEF</span><span class="pl"><i>5</i>DEF</span></div>
+          <div class="row"><span class="pl gk"><i>1</i>GK</span></div>
+        </div>
+        <ul class="members">
+          <li class="member"><span class="av">AK</span><div><strong>Ali Khan</strong><span>Forward</span></div><span class="role">Captain</span></li>
+          <li class="member"><span class="av">SA</span><div><strong>Sara Ahmed</strong><span>Midfielder</span></div><span class="role">Co-captain</span></li>
+          <li class="member"><span class="av">UT</span><div><strong>Usman Tariq</strong><span>Defender</span></div><span class="role n">Manager</span></li>
+          <li class="member"><span class="av">HM</span><div><strong>Hina Malik</strong><span>Goalkeeper</span></div><span class="role n">Member</span></li>
+          <li class="member request"><span class="av">ZH</span><div><strong>Zain Hassan</strong><span>Wants to join</span></div><span class="acts"><span class="pill neutral">Decline</span><span class="pill solid">Approve</span></span></li>
+        </ul>
       </div>
     </div>
-  </footer>
+    </div>
+  </div>
+</section>
 
-</div>
+<!-- ================= FEED ================= -->
+<section id="feed" class="section" aria-labelledby="feed-title">
+  <div class="wrap split">
+    <figure class="visual-first" style="margin: 0; display: flex; justify-content: center;">
+      <div class="phone" role="img" aria-label="The onlisportz home feed: a row of stories, a completed football result card showing Riverside FC beat Northside 3 to 1, and a post from Sara Ahmed with like, comment and share counts.">
+        <div class="screen">
+          <div class="island"></div>
+          <div class="status"><span>9:41</span><span class="status-icons"><svg viewBox="0 0 26 12" fill="none"><rect x="0.75" y="0.75" width="21" height="10.5" rx="3" stroke="currentColor" stroke-opacity="0.5" stroke-width="1.5"></rect><rect x="2.5" y="2.5" width="15" height="7" rx="1.5" fill="currentColor"></rect></svg></span></div>
+          <div class="app-head">
+            <span class="brand"><img src="./assets/onlisportz-mark.svg" alt="" width="22" height="22"><span class="wordmark">onli<span>sportz</span></span></span>
+            <span class="app-icons"><span class="bell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.7 21a2 2 0 0 1-3.4 0"></path></svg><b>3</b></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><span class="avatar-sm">AK</span></span>
+          </div>
+          <div class="app-body feed">
+            <div class="stories">
+              <span class="story me"><i>AK<b>+</b></i>Your Story</span>
+              <span class="story"><i>SA</i>sara</span>
+              <span class="story"><i>UT</i>usman</span>
+              <span class="story"><i>HM</i>hina</span>
+              <span class="story"><i>ZH</i>zain</span>
+            </div>
+            <div class="sc flat">
+              <div class="sc-head"><span class="sc-tag"></span><span class="sc-tab"><strong>Football</strong><span>Completed</span></span><span class="sc-format"></span></div>
+              <div class="sc-body">
+                <div class="side"><span class="crest"><img src="./assets/teams/riverside-fc.svg" alt="" width="62" height="62"></span><em>Riverside FC</em></div>
+                <div class="sc-mid"><span class="vs">V/S</span><span class="center">3 - 1</span><span class="when">20m ago</span></div>
+                <div class="side"><span class="crest"><img src="./assets/teams/northside.svg" alt="" width="62" height="62"></span><em class="dim">Northside</em></div>
+              </div>
+              <div class="sc-foot"><span class="meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v4a5 5 0 0 1-10 0z"></path><path d="M7 5.5H4.5V7a3 3 0 0 0 3 3M17 5.5h2.5V7a3 3 0 0 1-3 3M12 13v3.5M8.5 20.5h7M9.5 16.5h5v4h-5z"></path></svg>Riverside FC won</span></div>
+            </div>
+            <div class="fpost">
+              <div class="fpost-head"><span class="gav g2">SA</span><div><strong>Sara Ahmed</strong><span>@sara_ahmed · 18/11/2026</span></div></div>
+              <p class="fpost-text">Sunday league done. Three points and a clean sheet.</p>
+              <div class="fpost-media"><i></i><b>MATCHDAY</b><small>RIVERSIDE FC 3 - 1 NORTHSIDE</small></div>
+              <div class="fpost-acts"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"></path></svg>24</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 21l2.1-5.4A8.5 8.5 0 1 1 21 11.5Z"></path></svg>6</span><span class="r"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.6"></circle><circle cx="6" cy="12" r="2.6"></circle><circle cx="18" cy="19" r="2.6"></circle><path d="m8.3 10.8 7.4-4.4M8.3 13.2l7.4 4.4"></path></svg>2</span></div>
+            </div>
+          </div>
+          <div class="tabbar">
+            <div class="on"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 10.5 12 3.5l8.5 7V20a1 1 0 0 1-1 1H15v-6H9v6H4.5a1 1 0 0 1-1-1z"></path></svg></span>Home</div>
+            <div><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14a1.5 1.5 0 0 1 1.5 1.5v10A1.5 1.5 0 0 1 19 17H9l-4.5 3.5V5.5A1.5 1.5 0 0 1 5 4z"></path><path d="M8.5 9h7M8.5 12.5h4.5"></path></svg><b>2</b></span>Chat</div>
+            <div class="plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></div>
+            <div><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v4a5 5 0 0 1-10 0z"></path><path d="M7 5.5H4.5V7a3 3 0 0 0 3 3M17 5.5h2.5V7a3 3 0 0 1-3 3M12 13v3.5M8.5 20.5h7M9.5 16.5h5v4h-5z"></path></svg></span>Matches</div>
+            <div><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3"></circle><path d="M6.5 19.5a5.5 5.5 0 0 1 11 0"></path><circle cx="5.2" cy="10.5" r="2"></circle><circle cx="18.8" cy="10.5" r="2"></circle><path d="M1.8 18a3.6 3.6 0 0 1 4-3.2M22.2 18a3.6 3.6 0 0 0-4-3.2"></path></svg></span>Teams</div>
+          </div>
+        </div>
+      </div>
+    </figure>
+
+    <div>
+      <span class="eyebrow"><b>04</b> Feed &amp; stories</span>
+      <h2 class="title" id="feed-title">Every match leaves a highlight reel.</h2>
+      <p class="lead">Finished matches land in the feed as result cards, next to posts, training and clips from the people and teams you follow.</p>
+      <ul class="benefits">
+        <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"></rect><path d="M10 9.5v5l4.5-2.5z" fill="currentColor"></path></svg></span><div><strong>Results in the feed</strong><p>Every completed match shows up as a card with both teams, the final score and who won.</p></div></li>
+        <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></span><div><strong>Stories for 24 hours</strong><p>Share a moment from the sideline. It disappears after a day.</p></div></li>
+        <li><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 21l2.1-5.4A8.5 8.5 0 1 1 21 11.5Z"></path></svg></span><div><strong>Posts, likes, comments and shares</strong><p>Post photos and updates, then react to your teammates' and rivals' posts. Match clips stay with the match they came from.</p></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= OFF THE FIELD ================= -->
+<section id="off-field" class="section alt" aria-labelledby="off-title">
+  <div class="wrap">
+    <span class="eyebrow"><b>05</b> Off the field</span>
+    <h2 class="title" id="off-title">Training, your record,<br>and your people.</h2>
+
+    <div class="tiles">
+      <article class="tile">
+        <h3>Training counts too</h3>
+        <p>Log training clips with a title and notes. They stay private unless you share them to the feed, and your streak counts consecutive training days.</p>
+        <div class="tile-visual" role="img" aria-label="A training post from Zain Qureshi: a video clip with the note 10 x 30m sprints, 60s rest, 3 likes, plus a training streak of 6 days and a best of 14 days.">
+          <div class="tm">
+            <div class="fpost-head"><span class="gav g3">ZQ</span><div><strong>Zain Qureshi</strong><span>2h ago</span></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12h19M5.5 8v8M8.5 6.5v11M15.5 6.5v11M18.5 8v8"></path></svg></div>
+            <div class="train-media"><span class="play"><svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"></path></svg></span><span class="dur">0:24</span></div>
+            <p class="train-notes">10 x 30m sprints, 60s rest.</p>
+            <div class="fpost-acts"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"></path></svg>3</span><span class="r"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.6"></circle><circle cx="6" cy="12" r="2.6"></circle><circle cx="18" cy="19" r="2.6"></circle><path d="m8.3 10.8 7.4-4.4M8.3 13.2l7.4 4.4"></path></svg></span></div>
+          </div>
+          <div class="streak"><div><b class="accent">6 days</b><span>Current streak</span></div><div><b>14 days</b><span>Best streak</span></div></div>
+          <div class="days"><i></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
+        </div>
+      </article>
+
+      <article class="tile">
+        <h3>A profile with a record</h3>
+        <p>Your primary sport, your teams and your match record in one place. Fan other athletes to keep up with what they post.</p>
+        <div class="tile-visual" role="img" aria-label="An athlete profile for Sara Ahmed, football midfielder, showing counts for matches, training, fans and following, and a record of wins, losses and win rate.">
+          <div class="prof"><span class="av">SA</span><div><strong>Sara Ahmed</strong><span>Football · Midfielder</span></div></div>
+          <div class="counts"><div><b>18</b><span>Matches</span></div><div><b>42</b><span>Training</span></div><div><b>63</b><span>Fans</span></div><div><b>51</b><span>Following</span></div></div>
+          <div class="record"><div><b class="accent">11</b><span>Wins</span></div><div><b>7</b><span>Losses</span></div><div><b>61%</b><span>Win rate</span></div></div>
+        </div>
+      </article>
+
+      <article class="tile">
+        <h3>Chat that knows the context</h3>
+        <p>Direct messages, team chats, fan chats and match chats in one inbox. Filter by player, team, match or fans, with unread counts and live typing.</p>
+        <div class="tile-visual" role="img" aria-label="The onlisportz chat list: a search bar, filters for All, Player, Team, Match and Fans, and conversations with a match chat, a direct message, a fan chat with 2 unread messages, and a team chat.">
+          <div class="csearch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>Search conversations</div>
+          <div class="cfilters"><span class="on">All<i></i></span><span>Player</span><span>Team</span><span>Match</span><span>Fans</span></div>
+          <ul class="convos">
+            <li class="convo"><span class="av"><img src="./assets/teams/northside.svg" alt="" width="36" height="36"></span><div><strong>Northside</strong><span>Match · <b>You: See you at 7?</b></span></div><span class="when-col">21h ago</span></li>
+            <li class="convo"><span class="av def"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"></circle><path d="M4 20.5a8 8 0 0 1 16 0z"></path></svg></span><div><strong>Ali Khan</strong><span><b>You: Good game today</b></span></div><span class="when-col">1d ago</span></li>
+            <li class="convo unread-row"><span class="av"><img src="./assets/teams/riverside-fc.svg" alt="" width="36" height="36"></span><div><strong>Riverside FC Fans</strong><span>Fan chat · <b>Sara: What a finish</b></span></div><span class="when-col new">1d ago<span class="unread">2</span></span></li>
+            <li class="convo"><span class="av"><img src="./assets/teams/old-town-xi.svg" alt="" width="36" height="36"></span><div><strong>Old Town XI</strong><span>Team · No messages yet</span></div><span class="when-col"></span></li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= AVAILABILITY ================= -->
+<section id="availability" class="section" aria-labelledby="avail-title">
+  <div class="wrap">
+    <div class="avail">
+      <div style="position: relative; z-index: 1;">
+        <span class="eyebrow"><b>06</b> Availability</span>
+        <h2 id="avail-title">Coming to iPhone and Android.</h2>
+        <p>onlisportz isn't on the App Store or Google Play yet, and there's no sign-up list right now. Store links will be added to this page when the app is published.</p>
+        <a class="btn btn-dark" href="#top">Back to the top
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"></path></svg>
+        </a>
+      </div>
+      <ul class="stores" style="list-style: none; margin: 0; padding: 0;" aria-label="App stores">
+        <li class="store">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.9c-.03-2.6 2.12-3.85 2.22-3.91-1.21-1.77-3.09-2.01-3.76-2.04-1.6-.16-3.12.94-3.93.94-.81 0-2.06-.92-3.39-.89-1.74.03-3.35 1.01-4.25 2.57-1.81 3.14-.46 7.79 1.3 10.34.86 1.25 1.88 2.65 3.21 2.6 1.29-.05 1.78-.83 3.34-.83 1.55 0 2 .83 3.36.81 1.39-.03 2.27-1.27 3.12-2.53.98-1.45 1.39-2.85 1.41-2.92-.03-.01-2.71-1.04-2.74-4.12zM14.78 5.38c.71-.86 1.19-2.06 1.06-3.25-1.02.04-2.26.68-2.99 1.54-.66.76-1.23 1.98-1.08 3.14 1.14.09 2.3-.58 3.01-1.43z"></path></svg>
+          <span><small>iPhone</small><strong>App Store</strong></span>
+          <span class="status-tag">Not yet available</span>
+        </li>
+        <li class="store">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2.8 14 12 4 21.2c-.5-.2-.8-.7-.8-1.4V4.2c0-.7.3-1.2.8-1.4z" opacity="0.9"></path><path d="m14 12 3.4-3.1 2.9 1.7c.9.5.9 1.9 0 2.4l-2.9 1.7L14 12z" opacity="0.65"></path></svg>
+          <span><small>Android</small><strong>Google Play</strong></span>
+          <span class="status-tag">Not yet available</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <a class="brand" href="#top" aria-label="onlisportz home">
+        <img src="./assets/onlisportz-mark.svg" alt="" width="34" height="34">
+        <span class="wordmark" aria-hidden="true">onli<span>sportz</span></span>
+      </a>
+      <p>Find the game, build the team, settle the score. The sports app for players and teams.</p>
+    </div>
+    <nav aria-label="Footer">
+      <h3>Product</h3>
+      <ul>
+        <li><a href="#matches">Matches &amp; results</a></li>
+        <li><a href="#cricket">Cricket formats</a></li>
+        <li><a href="#teams">Football &amp; teams</a></li>
+        <li><a href="#feed">Feed &amp; stories</a></li>
+        <li><a href="#off-field">Training &amp; chat</a></li>
+      </ul>
+    </nav>
+    <div>
+      <h3>Sports</h3>
+      <ul>
+        <sc-for list="{{ sports }}" as="sport"><li>{{ sport }}</li></sc-for>
+      </ul>
+    </div>
+    <div>
+      <h3>App</h3>
+      <ul>
+        <li><a href="#availability">Availability</a></li>
+        <li>iPhone · coming</li>
+        <li>Android · coming</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="wrap">
+      <span>© 2026 onlisportz</span>
+      <span>Interface examples use sample names.</span>
+    </div>
+  </div>
+</footer>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
+// Cricket formats from the live Sport row (GET /sports, 2026-11-18), with overs per team from the app's rules.
+// Test is left out: the app refuses it until two-innings support exists.
+const F = (name, overs, players, hot) => ({ name, overs, players, cls: hot ? 'fmt hot' : 'fmt' });
+const CRICKET = {
+  tape: {
+    formats: [F('Single Wicket', '1 over', '1 a side', true), F('Double Wicket', '2 overs', '2 a side', true), F('4 Over', '4 overs', 'Up to 11'), F('5 Over', '5 overs', 'Up to 11'), F('6 Over', '6 overs', 'Up to 11'), F('T10', '10 overs', 'Up to 10'), F('T20', '20 overs', 'Up to 11')],
+    note: "Single and Double Wicket: an out doesn't end the innings, so both sides bat their full overs.",
+  },
+  hard: {
+    formats: [F('T10', '10 overs', 'Up to 11'), F('T20', '20 overs', 'Up to 11'), F('ODI', '50 overs', 'Up to 11', true), F('Super Six', 'Short format', 'Up to 6')],
+    note: 'Hard ball for the full game, from a quick T10 to a 50-over ODI.',
+  },
+};
+
 class Component extends DCLogic {
-  state = { heroDone: false, heroErr: '', waitDone: false, waitErr: '' };
+  state = { menuOpen: false, ball: 'tape' };
 
-  heroRef = React.createRef();
-  waitRef = React.createRef();
-  cityRef = React.createRef();
+  showTape = () => this.setState({ ball: 'tape' });
+  showHard = () => this.setState({ ball: 'hard' });
+  toggleMenu = () => this.setState({ menuOpen: !this.state.menuOpen });
+  closeMenu = () => { if (this.state.menuOpen) this.setState({ menuOpen: false }); };
+  onKey = (e) => { if (e.key === 'Escape') this.closeMenu(); };
 
-  validEmail(v) {
-    return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);
-  }
-
-  submitHero = (e) => {
-    e.preventDefault();
-    const v = (this.heroRef.current && this.heroRef.current.value || '').trim();
-    if (!this.validEmail(v)) { this.setState({ heroErr: 'Please enter a valid email address.' }); return; }
-    console.log('[OnliSport waitlist · hero]', v);
-    this.setState({ heroDone: true, heroErr: '' });
-  };
-
-  submitWait = (e) => {
-    e.preventDefault();
-    const v = (this.waitRef.current && this.waitRef.current.value || '').trim();
-    const city = (this.cityRef.current && this.cityRef.current.value || '').trim();
-    if (!this.validEmail(v)) { this.setState({ waitErr: 'Please enter a valid email address.' }); return; }
-    console.log('[OnliSport waitlist]', { email: v, city: city });
-    this.setState({ waitDone: true, waitErr: '' });
-  };
+  componentDidMount() { document.addEventListener('keydown', this.onKey); }
+  componentWillUnmount() { document.removeEventListener('keydown', this.onKey); }
 
   renderVals() {
+    const open = this.state.menuOpen;
     return {
-      heroRef: this.heroRef,
-      waitRef: this.waitRef,
-      cityRef: this.cityRef,
-      submitHero: this.submitHero,
-      submitWait: this.submitWait,
-      heroFormOpen: !this.state.heroDone,
-      heroDone: this.state.heroDone,
-      heroErr: this.state.heroErr,
-      showHeroErr: !!this.state.heroErr,
-      waitFormOpen: !this.state.waitDone,
-      waitDone: this.state.waitDone,
-      waitErr: this.state.waitErr,
-      showWaitErr: !!this.state.waitErr,
+      menuOpen: open,
+      navClass: open ? 'nav open' : 'nav',
+      menuLabel: open ? 'Close menu' : 'Open menu',
+      menuIcon: open ? 'M6 6l12 12M18 6 6 18' : 'M4 7h16M4 12h16M4 17h16',
+      toggleMenu: this.toggleMenu,
+      isTape: this.state.ball === 'tape',
+      isHard: this.state.ball === 'hard',
+      showTape: this.showTape,
+      showHard: this.showHard,
+      formats: CRICKET[this.state.ball].formats,
+      ballNote: CRICKET[this.state.ball].note,
+      formatsLabel: this.state.ball === 'tape' ? 'Tape ball formats' : 'Hard ball formats',
+      closeMenu: this.closeMenu,
+      // Active sports from GET api.onlisportz.com/api/v1/sports (2026-11-18), named as the app names them.
+      sports: ['Cricket', 'Football', 'Hockey', 'Kabaddi', 'Volleyball', 'Badminton', 'Table Tennis', 'Paddle'],
     };
   }
 }
